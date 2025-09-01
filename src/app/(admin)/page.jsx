@@ -1,5 +1,5 @@
 // import { EcommerceMetrics } from "@/components/ecommerce/EcommerceMetrics"
-import React from "react"
+import React from "react";
 // import MonthlyTarget from "@/components/ecommerce/MonthlyTarget"
 // import MonthlySalesChart from "@/components/ecommerce/MonthlySalesChart"
 // import StatisticsChart from "@/components/ecommerce/StatisticsChart"
@@ -7,10 +7,9 @@ import React from "react"
 // import DemographicCard from "@/components/ecommerce/DemographicCard"
 
 export const metadata = {
-  title:
-    "Next.js E-commerce Dashboard | TailAdmin - Next.js Dashboard Template",
-  description: "This is Next.js Home for TailAdmin Dashboard Template"
-}
+  title: "Dashboard",
+  description: "This is Next.js Home for TailAdmin Dashboard Template",
+};
 
 export default function Ecommerce() {
   return (
@@ -37,5 +36,5 @@ export default function Ecommerce() {
         <RecentOrders />
       </div> */}
     </div>
-  )
+  );
 }

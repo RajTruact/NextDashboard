@@ -10,6 +10,7 @@ import {
   ChevronDown,
   FlipHorizontal2Icon,
   GridIcon,
+  Kanban,
   List,
   PackagePlus,
   PieChart,
@@ -25,16 +26,16 @@ const navItems = [
     path: "/",
     // subItems: [{ name: "Ecommerce", path: "/", pro: false }],
   },
-  // {
-  //   icon: <Calendar />,
-  //   name: "Calendar",
-  //   path: "/calendar",
-  // },
-  // {
-  //   icon: <UserCircle />,
-  //   name: "User Profile",
-  //   path: "/profile",
-  // },
+  {
+    icon: <Kanban />,
+    name: "Kanban",
+    path: "/kanban",
+  },
+  {
+    icon: <UserCircle />,
+    name: "User Profile",
+    path: "/profile",
+  },
 
   {
     name: "Forms",
@@ -57,14 +58,14 @@ const navItems = [
 ];
 
 const othersItems = [
-  // {
-  //   icon: <PieChart />,
-  //   name: "Charts",
-  //   subItems: [
-  //     { name: "Line Chart", path: "/line-chart", pro: false },
-  //     { name: "Bar Chart", path: "/bar-chart", pro: false }
-  //   ]
-  // },
+  {
+    icon: <PieChart />,
+    name: "Charts",
+    subItems: [
+      { name: "Line Chart", path: "/line-chart", pro: false },
+      { name: "Bar Chart", path: "/bar-chart", pro: false },
+    ],
+  },
   // {
   //   icon: <BoxIcon />,
   //   name: "UI Elements",
@@ -74,17 +75,17 @@ const othersItems = [
   //     { name: "Badge", path: "/badge", pro: false },
   //     { name: "Buttons", path: "/buttons", pro: false },
   //     { name: "Images", path: "/images", pro: false },
-  //     { name: "Videos", path: "/videos", pro: false }
-  //   ]
+  //     { name: "Videos", path: "/videos", pro: false },
+  //   ],
   // },
-  // {
-  //   icon: <PlugIcon />,
-  //   name: "Authentication",
-  //   subItems: [
-  //     { name: "Sign In", path: "/signin", pro: false },
-  //     { name: "Sign Up", path: "/signup", pro: false }
-  //   ]
-  // }
+  {
+    icon: <PlugIcon />,
+    name: "Authentication",
+    subItems: [
+      { name: "Sign In", path: "/signin", pro: false },
+      { name: "Sign Up", path: "/signup", pro: false },
+    ],
+  },
 ];
 
 const AppSidebar = () => {
@@ -225,7 +226,7 @@ const AppSidebar = () => {
     // Check if the current path matches any submenu item
     let submenuMatched = false;
     ["main", "others"].forEach((menuType) => {
-      const items = menuType === "main" ? navItems : navItems;
+      const items = menuType === "main" ? navItems : othersItems;
       items.forEach((nav, index) => {
         if (nav.subItems) {
           nav.subItems.forEach((subItem) => {
@@ -278,9 +279,9 @@ const AppSidebar = () => {
       className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
         ${
           isExpanded || isMobileOpen
-            ? "w-[290px]"
+            ? "w-[260px]"
             : isHovered
-            ? "w-[290px]"
+            ? "w-[260px]"
             : "w-[90px]"
         }
         ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
@@ -360,6 +361,11 @@ const AppSidebar = () => {
           </div>
         </nav>
         {/* {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null} */}
+      </div>
+      <div className="bottom-0">
+        <Link href={"/"} className=" text-black dark:text-white">
+          Settings
+        </Link>
       </div>
     </aside>
   );
