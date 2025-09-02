@@ -1,93 +1,72 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
-import { X, Trash2 } from "lucide-react"; // icon library (lucide-react)
+import { X, Trash2 } from "lucide-react";
 
 export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
-  const [notifying, setNotifying] = useState(true);
 
-  // Mock notification data
+  // Mock notification data with "read" state
   const [notifications, setNotifications] = useState([
     {
       id: 1,
       name: "Terry Franci",
-      avatar: "https://cdn-icons-png.flaticon.com/256/180/180644.png",
-      message: "requests permission to change",
+      message: "requested permission to change",
       project: "Project - Nganter App",
       type: "Project",
       time: "5 min ago",
-      status: "online", // online/offline/error
+      status: "online",
+      read: false,
     },
     {
       id: 2,
       name: "Alena Franci",
-      avatar: "https://cdn-icons-png.flaticon.com/256/180/180644.png",
-      message: "requests permission to change",
-      project: "Project - Nganter App",
-      type: "Project",
+      message: "added a new document",
+      project: "Project - ResearchX",
+      type: "Document",
       time: "8 min ago",
       status: "online",
+      read: false,
     },
     {
       id: 3,
       name: "Brandon Philips",
-      avatar:
-        "https://c8.alamy.com/comp/REB7MC/manbrunettehairwighaircutmustachebeardhairdresserfashionsalonavatardummypersonimageportraithairstyleprofessionalphotocharacterprofilesetvectoriconillustrationisolatedcollectiondesignelementgraphicsigncartooncolor-vector-vectors-REB7MC.jpg",
-      message: "requests permission to change",
-      project: "Project - Nganter App",
-      type: "Project",
+      message: "commented on your task",
+      project: "Project - DesignPro",
+      type: "Task",
       time: "1 hr ago",
       status: "error",
+      read: true,
     },
     {
       id: 4,
-      name: "Terry Franci",
-      avatar: "https://cdn-icons-png.flaticon.com/256/180/180644.png",
-      message: "requests permission to change",
-      project: "Project - Nganter App",
-      type: "Project",
-      time: "5 min ago",
-      status: "online", // online/offline/error
+      name: "Sophia Loren",
+      message: "assigned you a new task",
+      project: "Project - AI Engine",
+      type: "Task",
+      time: "2 hrs ago",
+      status: "online",
+      read: false,
     },
     {
       id: 5,
-      name: "Alena Franci",
-      avatar: "https://cdn-icons-png.flaticon.com/256/180/180644.png",
-      message: "requests permission to change",
-      project: "Project - Nganter App",
-      type: "Project",
-      time: "8 min ago",
+      name: "David Warner",
+      message: "uploaded new files",
+      project: "Project - CloudHub",
+      type: "File",
+      time: "3 hrs ago",
       status: "online",
-    },
-    {
-      id: 6,
-      name: "Brandon Philips",
-      avatar:
-        "https://c8.alamy.com/comp/REB7MC/manbrunettehairwighaircutmustachebeardhairdresserfashionsalonavatardummypersonimageportraithairstyleprofessionalphotocharacterprofilesetvectoriconillustrationisolatedcollectiondesignelementgraphicsigncartooncolor-vector-vectors-REB7MC.jpg",
-      message: "requests permission to change",
-      project: "Project - Nganter App",
-      type: "Project",
-      time: "1 hr ago",
-      status: "error",
+      read: false,
     },
   ]);
 
-  function toggleDropdown() {
-    setIsOpen(!isOpen);
-  }
+  const toggleDropdown = () => setIsOpen(!isOpen);
+  const closeDropdown = () => setIsOpen(false);
 
-  function closeDropdown() {
-    setIsOpen(false);
-  }
-
-  const handleClick = () => {
-    toggleDropdown();
-    setNotifying(false);
-  };
+  // unread count
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   // remove single notification
   const removeNotification = (id) => {
@@ -95,23 +74,33 @@ export default function NotificationDropdown() {
   };
 
   // clear all
-  const clearAll = () => {
-    setNotifications([]);
+  const clearAll = () => setNotifications([]);
+
+  // mark one notification as read
+  const markAsRead = (id) => {
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
+    );
+  };
+
+  // mark all as read
+  const markAllAsRead = () => {
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
   };
 
   return (
     <div className="relative">
+      {/* Notification button with badge */}
       <button
-        className="relative dropdown-toggle flex items-center justify-center text-gray-500 transition-colors bg-white border border-gray-200 rounded-full hover:text-gray-700 h-11 w-11 hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
-        onClick={handleClick}
+        className="relative flex items-center justify-center text-gray-500 transition-colors bg-white border border-gray-200 rounded-full hover:text-gray-700 h-11 w-11 hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
+        onClick={toggleDropdown}
       >
-        <span
-          className={`absolute right-0 top-0.5 z-10 h-2 w-2 rounded-full bg-orange-400 ${
-            !notifying ? "hidden" : "flex"
-          }`}
-        >
-          <span className="absolute inline-flex w-full h-full bg-orange-400 rounded-full opacity-75 animate-ping"></span>
-        </span>
+        {unreadCount > 0 && (
+          <span className="absolute right-0 top-0.5 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-orange-500 text-[11px] font-bold text-white">
+            {unreadCount}
+          </span>
+        )}
+
         <svg
           className="fill-current"
           width="20"
@@ -126,93 +115,97 @@ export default function NotificationDropdown() {
         </svg>
       </button>
 
+      {/* Dropdown */}
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
-        className="sm:absolute sm:-right-[0px] xsm:-left-[8vw] -left-[17vw] mt-[16px] flex sm:max-h-[480px] w-[340px]  max-h-[480px] sm:w-[350px] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark lg:right-0"
+        className="sm:absolute sm:-left-[250px] xsm:-left-[8vw] -left-[17vw] mt-[16px] flex sm:max-h-[480px] w-[340px]  max-h-[480px] sm:w-[390px] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark lg:right-0"
       >
         <div className="flex items-center justify-between pb-3 mb-3 border-b border-gray-100 dark:border-gray-700">
           <h5 className="text-lg font-semibold text-[#444] dark:text-gray-200">
             Notifications
           </h5>
-          {notifications.length > 0 && (
+          <div className="flex items-center gap-5">
+            {notifications.length > 0 && (
+              <button
+                onClick={markAllAsRead}
+                className="text-xs text-blue-500 hover:text-blue-600"
+              >
+                Mark all read
+              </button>
+            )}
+            {notifications.length > 0 && (
+              <button
+                onClick={clearAll}
+                className="flex items-center gap-1 text-sm text-red-500 hover:text-red-600"
+              >
+                <Trash2 className="w-4 h-4" /> Clear All
+              </button>
+            )}
             <button
-              onClick={clearAll}
-              className="flex items-center gap-1 text-sm text-red-500 hover:text-red-600 cursor-pointer"
+              onClick={toggleDropdown}
+              className="ml-2 text-gray-500 transition dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
             >
-              <Trash2 className="w-4 h-4" /> Clear All
+              <X className="w-5 h-5" />
             </button>
-          )}
-          <button
-            onClick={toggleDropdown}
-            className="ml-2 text-gray-500 transition dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          </div>
         </div>
 
         <ul className="flex flex-col h-auto overflow-y-auto custom-scrollbar">
           {notifications.length === 0 ? (
             <li className="p-4 text-center text-gray-500 dark:text-gray-400">
-              No notifications Yet
+              No notifications yet
             </li>
           ) : (
-            notifications.map((n) => (
-              <li key={n.id} className="flex items-start justify-between">
-                <DropdownItem
-                  onItemClick={closeDropdown}
-                  className="flex flex-1 gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5"
+            [...notifications]
+              .sort((a, b) => (a.read === b.read ? 0 : a.read ? 1 : -1)) // 🔥 unread first
+              .map((n) => (
+                <li
+                  key={n.id}
+                  className={`flex items-start justify-between ${
+                    !n.read ? "bg-orange-50 dark:bg-gray-800" : ""
+                  }`}
                 >
-                  <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
-                    <Image
-                      width={40}
-                      height={40}
-                      src={n.avatar}
-                      alt={n.name}
-                      className="w-full overflow-hidden rounded-full"
-                    />
-                    <span
-                      className={`absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-white dark:border-gray-900 ${
-                        n.status === "online"
-                          ? "bg-green-500"
-                          : n.status === "error"
-                          ? "bg-red-500"
-                          : "bg-gray-400"
-                      }`}
-                    ></span>
-                  </span>
-
-                  <span className="block">
-                    <span className="mb-1.5 space-x-1 block text-theme-sm text-gray-500 dark:text-gray-400">
-                      <span className="font-medium text-gray-800 dark:text-white/90">
-                        {n.name}
+                  <DropdownItem
+                    onItemClick={() => {
+                      markAsRead(n.id);
+                      closeDropdown();
+                    }}
+                    className="flex flex-1 gap-3 rounded-lg border-b border-gray-100 p-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5"
+                  >
+                    <span className="block">
+                      <span className="block mb-1.5 space-x-1 text-sm">
+                        <span className="font-medium text-gray-800 dark:text-white/90">
+                          {n.name}
+                        </span>
+                        <span className="text-gray-600 dark:text-gray-400">
+                          {n.message}
+                        </span>
+                        <span className="font-medium text-gray-800 dark:text-white/90">
+                          {n.project}
+                        </span>
                       </span>
-                      <span>{n.message}</span>
-                      <span className="font-medium text-gray-800 dark:text-white/90">
-                        {n.project}
+                      <span className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                        <span>{n.type}</span>
+                        <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
+                        <span>{n.time}</span>
                       </span>
                     </span>
-                    <span className="flex items-center gap-2 text-gray-500 text-theme-xs dark:text-gray-400">
-                      <span>{n.type}</span>
-                      <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                      <span>{n.time}</span>
-                    </span>
-                  </span>
-                </DropdownItem>
+                  </DropdownItem>
 
-                <button
-                  onClick={() => removeNotification(n.id)}
-                  className="p-2 text-gray-400 hover:text-red-500"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </li>
-            ))
+                  <button
+                    onClick={() => removeNotification(n.id)}
+                    className="p-2 text-gray-400 hover:text-red-500"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </li>
+              ))
           )}
         </ul>
 
         <Link
-          href="/"
+          href="/notifications"
           className="block px-4 py-2 mt-3 text-sm font-medium text-center text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
         >
           View All Notifications
