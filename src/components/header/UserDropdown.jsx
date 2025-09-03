@@ -124,7 +124,7 @@ export default function UserDropdown() {
                 strokeLinejoin="round"
               />
             </svg>
-            Account Settings
+            Account Details
           </Link>
         </div>
 
@@ -148,7 +148,7 @@ export default function UserDropdown() {
                 fill="currentColor"
               />
             </svg>
-            Sign out
+            Log out
           </Link>
         </div>
       </Dropdown>

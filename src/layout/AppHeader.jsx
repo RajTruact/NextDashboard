@@ -7,11 +7,54 @@ import { useSidebar } from "../context/SidebarContext";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect, useRef } from "react";
+import { Search, X } from "lucide-react";
 
 const AppHeader = () => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [showSearchResults, setShowSearchResults] = useState(false);
 
   const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
+
+  // Mock search results data
+  const searchResults = [
+    {
+      id: 1,
+      title: "Dashboard Analytics",
+      description: "View your performance metrics",
+      type: "Page",
+      url: "/kanban",
+    },
+    {
+      id: 2,
+      title: "User Settings",
+      description: "Manage your account preferences",
+      type: "Page",
+      url: "/kanban",
+    },
+    {
+      id: 3,
+      title: "Project Timeline",
+      description: "Check project progress and deadlines",
+      type: "Project",
+      url: "/kanban",
+    },
+    {
+      id: 4,
+      title: "Team Members",
+      description: "View and manage your team",
+      type: "Team",
+      url: "/kanban",
+    },
+    {
+      id: 5,
+      title: "Documentation",
+      description: "Access help guides and documentation",
+      type: "Resource",
+      url: "/kanban",
+    },
+  ];
 
   const handleToggle = () => {
     if (window.innerWidth >= 1024) {
@@ -24,22 +67,64 @@ const AppHeader = () => {
   const toggleApplicationMenu = () => {
     setApplicationMenuOpen(!isApplicationMenuOpen);
   };
+
   const inputRef = useRef(null);
+  const searchRef = useRef(null);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
       if ((event.metaKey || event.ctrlKey) && event.key === "k") {
         event.preventDefault();
         inputRef.current?.focus();
+        setShowSearchResults(true);
+      }
+
+      // Close search results on escape
+      if (event.key === "Escape" && showSearchResults) {
+        setShowSearchResults(false);
+        inputRef.current?.blur();
+      }
+    };
+
+    // Close search results when clicking outside
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setShowSearchResults(false);
       }
     };
 
     document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [showSearchResults]);
+
+  // Filter results based on search query
+  const filteredResults = searchQuery
+    ? searchResults.filter(
+        (item) =>
+          item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.description.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : searchResults;
+
+  const handleSearchFocus = () => {
+    setIsSearchFocused(true);
+    setShowSearchResults(true);
+  };
+
+  const handleSearchBlur = () => {
+    setIsSearchFocused(false);
+    // Don't immediately hide results to allow clicking on them
+  };
+
+  const clearSearch = () => {
+    setSearchQuery("");
+    inputRef.current?.focus();
+  };
 
   return (
     <header className="sticky top-0 flex w-full bg-white border-gray-200 z-99999 dark:border-gray-800 dark:bg-gray-900 lg:border-b sm:h-[65px]">
@@ -81,25 +166,65 @@ const AppHeader = () => {
                 />
               </svg>
             )}
-            {/* Cross Icon */}
           </button>
 
-          <Link href="/" className="lg:hidden">
-            <Image
-              width={80}
-              height={32}
-              className="dark:hidden"
-              src="https://www.truact.in/Truact_logo_reverse-01.png"
-              alt="Logo"
+          {/* Mobile Search */}
+          <div className="relative sm:hidden" ref={searchRef}>
+            <span className="absolute -translate-y-1/2 left-4 top-1/2 pointer-events-none">
+              <Search className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+            </span>
+            <input
+              ref={inputRef}
+              type="text"
+              placeholder="Search "
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={handleSearchFocus}
+              onBlur={handleSearchBlur}
+              className="dark:bg-dark-900 h-10 w-full rounded-lg border border-gray-200 bg-transparent py-2.5 pl-12 pr-10 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-800 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
             />
-            <Image
-              width={80}
-              height={32}
-              className="hidden dark:block"
-              src="https://www.truact.in/Truact_logo_reverse-01.png"
-              alt="Logo"
-            />
-          </Link>
+            {searchQuery && (
+              <button
+                onClick={clearSearch}
+                className="absolute -translate-y-1/2 right-3 top-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
+
+            {/* Search Results Dropdown for Mobile */}
+            {showSearchResults && filteredResults.length > 0 && (
+              <div className="absolute left-0 right-0 z-50 mt-2 overflow-hidden bg-white rounded-lg shadow-theme-lg top-full dark:bg-gray-900 dark:border dark:border-gray-800">
+                <div className="max-h-64 overflow-y-auto">
+                  {filteredResults.map((result) => (
+                    <Link
+                      key={result.id}
+                      href={result.url}
+                      className="block px-4 py-3 border-b border-gray-100 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800 last:border-b-0"
+                      onClick={() => setShowSearchResults(false)}
+                    >
+                      <div className="font-medium text-gray-900 dark:text-white">
+                        {result.title}
+                      </div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">
+                        {result.description}
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                        {result.type}
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+                <Link
+                  href="/search-results"
+                  className="block px-4 py-3 text-sm font-medium text-center text-blue-600 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:text-blue-400 dark:hover:bg-gray-700"
+                  onClick={() => setShowSearchResults(false)}
+                >
+                  View all results
+                </Link>
+              </div>
+            )}
+          </div>
 
           <button
             onClick={toggleApplicationMenu}
@@ -121,37 +246,67 @@ const AppHeader = () => {
             </svg>
           </button>
 
-          <div className="hidden lg:block">
+          {/* Desktop Search */}
+          <div className="hidden lg:block" ref={searchRef}>
             <form>
               <div className="relative">
                 <span className="absolute -translate-y-1/2 left-4 top-1/2 pointer-events-none">
-                  <svg
-                    className="fill-gray-500 dark:fill-gray-400"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M3.04175 9.37363C3.04175 5.87693 5.87711 3.04199 9.37508 3.04199C12.8731 3.04199 15.7084 5.87693 15.7084 9.37363C15.7084 12.8703 12.8731 15.7053 9.37508 15.7053C5.87711 15.7053 3.04175 12.8703 3.04175 9.37363ZM9.37508 1.54199C5.04902 1.54199 1.54175 5.04817 1.54175 9.37363C1.54175 13.6991 5.04902 17.2053 9.37508 17.2053C11.2674 17.2053 13.003 16.5344 14.357 15.4176L17.177 18.238C17.4699 18.5309 17.9448 18.5309 18.2377 18.238C18.5306 17.9451 18.5306 17.4703 18.2377 17.1774L15.418 14.3573C16.5365 13.0033 17.2084 11.2669 17.2084 9.37363C17.2084 5.04817 13.7011 1.54199 9.37508 1.54199Z"
-                      fill=""
-                    />
-                  </svg>
+                  <Search className="w-4 h-4 text-gray-500 dark:text-gray-400" />
                 </span>
                 <input
                   ref={inputRef}
                   type="text"
                   placeholder="Search "
-                  className="dark:bg-dark-900 h-10 w-full rounded-lg border border-gray-200 bg-transparent py-2.5 pl-12 pr-14 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-800 dark:bg-gray-900 dark:bg-white/[0.03] dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800 xl:w-[430px]"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={handleSearchFocus}
+                  onBlur={handleSearchBlur}
+                  className="dark:bg-dark-900 h-10 w-full rounded-lg border border-gray-200 bg-transparent py-2.5 pl-12 pr-10 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-800 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800 xl:w-[430px]"
                 />
-
-                {/* <button className="absolute right-2.5 top-1/2 inline-flex -translate-y-1/2 items-center gap-0.5 rounded-lg border border-gray-200 bg-gray-50 px-[7px] py-[4.5px] text-xs -tracking-[0.2px] text-gray-500 dark:border-gray-800 dark:bg-white/[0.03] dark:text-gray-400">
-                  <span> ⌘ </span>
-                  <span> K </span>
+                {searchQuery && (
+                  <button
+                    onClick={clearSearch}
+                    className="absolute -translate-y-1/2 right-3 top-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+                {/* <button className="absolute -translate-y-1/2 right-12 top-1/2 inline-flex items-center gap-0.5 rounded-lg border border-gray-200 bg-gray-50 px-[7px] py-[4.5px] text-xs -tracking-[0.2px] text-gray-500 dark:border-gray-800 dark:bg-white/[0.03] dark:text-gray-400">
+                  <span>⌘K</span>
                 </button> */}
+
+                {/* Search Results Dropdown for Desktop */}
+                {showSearchResults && filteredResults.length > 0 && (
+                  <div className="absolute left-0 right-0 z-50 mt-2 overflow-hidden bg-white rounded-lg shadow-theme-lg top-full dark:bg-gray-900 dark:border dark:border-gray-800">
+                    <div className="max-h-64 overflow-y-auto">
+                      {filteredResults.map((result) => (
+                        <Link
+                          key={result.id}
+                          href={result.url}
+                          className="block px-4 py-3 border-b border-gray-100 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800 last:border-b-0"
+                          onClick={() => setShowSearchResults(false)}
+                        >
+                          <div className="font-medium text-gray-900 dark:text-white">
+                            {result.title}
+                          </div>
+                          <div className="text-sm text-gray-600 dark:text-gray-400">
+                            {result.description}
+                          </div>
+                          <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                            {result.type}
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                    <Link
+                      href="/search-results"
+                      className="block px-4 py-3 text-sm font-medium text-center text-blue-600 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:text-blue-400 dark:hover:bg-gray-700"
+                      onClick={() => setShowSearchResults(false)}
+                    >
+                      View all results for "{searchQuery}"
+                    </Link>
+                  </div>
+                )}
               </div>
             </form>
           </div>
