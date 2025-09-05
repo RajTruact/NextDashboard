@@ -8,6 +8,7 @@ const HeaderSettings = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const settingsRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpen1, setIsOpen1] = useState(false);
 
   useEffect(() => {
     // Close settings dropdown when clicking outside
