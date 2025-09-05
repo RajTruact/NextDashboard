@@ -8,6 +8,7 @@ import { X, Trash2, Bell } from "lucide-react";
 export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [filter, setFilter] = useState("all"); // "all" or "unread"
   const dropdownRef = useRef(null);
 
   // Mock notification data with "read" state
@@ -54,6 +55,36 @@ export default function NotificationDropdown() {
     },
     {
       id: 5,
+      name: "David Warner",
+      message: "uploaded new files",
+      project: "Project - CloudHub",
+      type: "File",
+      time: "3 hrs ago",
+      status: "online",
+      read: false,
+    },
+    {
+      id: 6,
+      name: "Brandon Philips",
+      message: "commented on your task",
+      project: "Project - DesignPro",
+      type: "Task",
+      time: "1 hr ago",
+      status: "error",
+      read: true,
+    },
+    {
+      id: 7,
+      name: "Sophia Loren",
+      message: "assigned you a new task",
+      project: "Project - AI Engine",
+      type: "Task",
+      time: "2 hrs ago",
+      status: "online",
+      read: false,
+    },
+    {
+      id: 8,
       name: "David Warner",
       message: "uploaded new files",
       project: "Project - CloudHub",
@@ -121,8 +152,14 @@ export default function NotificationDropdown() {
     setHasInteracted(true);
   };
 
+  // Filter notifications based on selected filter
+  const filteredNotifications = notifications.filter((n) => {
+    if (filter === "unread") return !n.read;
+    return true;
+  });
+
   // Sort notifications: unread first, then by time (newest first)
-  const sortedNotifications = [...notifications].sort((a, b) => {
+  const sortedNotifications = [...filteredNotifications].sort((a, b) => {
     if (a.read !== b.read) {
       return a.read ? 1 : -1;
     }
@@ -140,8 +177,9 @@ export default function NotificationDropdown() {
         aria-expanded={isOpen}
       >
         {unreadCount > 0 && (
-          <span className="absolute right-0 top-0.5 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-orange-500 text-[11px] font-bold text-white">
+          <span className="absolute -right-1.5 -top-0.5 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-orange-400 text-[11px] font-bold text-white">
             {unreadCount}
+            <span className="absolute inline-flex w-full h-full rounded-full bg-orange-400 opacity-75 animate-ping"></span>
           </span>
         )}
         <Bell className="w-5 h-5" />
@@ -151,7 +189,7 @@ export default function NotificationDropdown() {
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
-        className="absolute right-0 mt-2 flex max-h-[480px] w-[390px] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark sm:left-auto sm:right-0"
+        className="absolute left-[32.5vw] -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-0 mt-2 flex max-h-[480px] w-[390px] max-w-[calc(100vw-2rem)] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark"
       >
         <div className="flex items-center justify-between pb-3 mb-3 border-b border-gray-100 dark:border-gray-700">
           <h5 className="text-lg font-semibold text-[#444] dark:text-gray-200">
@@ -170,10 +208,10 @@ export default function NotificationDropdown() {
             {notifications.length > 0 && (
               <button
                 onClick={clearAll}
-                className="flex items-center gap-1 text-sm text-red-500 hover:text-red-600"
+                className="flex items-center gap-1 text-xs text-red-500 hover:text-red-600"
                 aria-label="Clear all notifications"
               >
-                <Trash2 className="w-4 h-4" /> Clear All
+                Clear All
               </button>
             )}
             <button
@@ -186,10 +224,36 @@ export default function NotificationDropdown() {
           </div>
         </div>
 
+        {/* Filter Toggle */}
+        <div className="flex mb-3 bg-gray-100 rounded-lg p-1 dark:bg-gray-800">
+          <button
+            onClick={() => setFilter("all")}
+            className={`flex-1 py-1.5 px-2 text-sm font-medium rounded-md transition-colors ${
+              filter === "all"
+                ? "bg-white text-gray-800 shadow-sm dark:bg-gray-700 dark:text-white"
+                : "text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white"
+            }`}
+          >
+            All
+          </button>
+          <button
+            onClick={() => setFilter("unread")}
+            className={`flex-1 py-1.5 px-2 text-sm font-medium rounded-md transition-colors ${
+              filter === "unread"
+                ? "bg-white text-gray-800 shadow-sm dark:bg-gray-700 dark:text-white"
+                : "text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white"
+            }`}
+          >
+            Unread
+          </button>
+        </div>
+
         <ul className="flex flex-col h-auto overflow-y-auto custom-scrollbar">
-          {notifications.length === 0 ? (
+          {sortedNotifications.length === 0 ? (
             <li className="p-4 text-center text-gray-500 dark:text-gray-400">
-              No notifications yet
+              {filter === "unread"
+                ? "No unread notifications"
+                : "No notifications yet"}
             </li>
           ) : (
             sortedNotifications.map((n) => (
