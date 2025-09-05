@@ -189,7 +189,7 @@ export default function NotificationDropdown() {
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
-        className="absolute left-[32.5vw] -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-0 mt-2 flex max-h-[480px] w-[390px] max-w-[calc(100vw-2rem)] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark"
+        className="absolute left-[30vw] -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-0 mt-2 flex max-h-[480px] w-[390px] max-w-[calc(100vw-2rem)] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark"
       >
         <div className="flex items-center justify-between pb-3 mb-3 border-b border-gray-100 dark:border-gray-700">
           <h5 className="text-lg font-semibold text-[#444] dark:text-gray-200">
@@ -199,7 +199,7 @@ export default function NotificationDropdown() {
             {notifications.length > 0 && (
               <button
                 onClick={markAllAsRead}
-                className="text-xs text-blue-500 hover:text-blue-600"
+                className="text-[13px] text-blue-500 hover:text-blue-600"
                 aria-label="Mark all as read"
               >
                 Mark all read
@@ -208,7 +208,7 @@ export default function NotificationDropdown() {
             {notifications.length > 0 && (
               <button
                 onClick={clearAll}
-                className="flex items-center gap-1 text-xs text-red-500 hover:text-red-600"
+                className="flex items-center gap-1 text-[13px] text-red-500 hover:text-red-600"
                 aria-label="Clear all notifications"
               >
                 Clear All
@@ -260,7 +260,7 @@ export default function NotificationDropdown() {
               <li
                 key={n.id}
                 className={`flex items-start justify-between ${
-                  !n.read ? "bg-orange-50 dark:bg-gray-800" : ""
+                  !n.read ? "bg-orange-50 dark:bg-[#333d4e]" : ""
                 } transition-colors duration-200`}
               >
                 <DropdownItem

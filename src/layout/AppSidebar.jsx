@@ -327,7 +327,7 @@ const AppSidebar = () => {
             </>
           ) : (
             <Image
-              src="https://www.truact.in/Truact_logo_reverse-01.png"
+              src="https://www.truact.in/favicon.png"
               alt="Logo"
               width={28}
               height={28}

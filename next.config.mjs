@@ -7,7 +7,9 @@ const nextConfig = {
       "cdn-icons-png.flaticon.com",
       "previews.123rf.com",
       "c8.alamy.com",
+      "akm-img-a-in.tosshub.com",
       "www.truact.in",
+      "encrypted-tbn0.gstatic.com",
     ],
   },
 };

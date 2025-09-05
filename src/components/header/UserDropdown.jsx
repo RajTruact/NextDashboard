@@ -22,16 +22,17 @@ export default function UserDropdown() {
         onClick={toggleDropdown}
         className="flex items-center text-gray-700 dark:text-gray-400 dropdown-toggle"
       >
-        <span className="mr-3 overflow-hidden rounded-full h-11 w-11">
+        <span className="mr-3 overflow-hidden rounded-full h-10 w-10 border-2">
           <Image
             width={44}
             height={44}
-            src="https://plus.unsplash.com/premium_photo-1671656349322-41de944d259b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWFufGVufDB8fDB8fHww"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4ynBFooDqfA4VeRB1zuBjbQhwCrmJqtRAQw&s"
             alt="User"
+            className=""
           />
         </span>
 
-        <span className="block mr-1 font-medium text-theme-sm">Raj Kumar</span>
+        <span className="block mr-1 font-medium text-theme-sm">Jayant</span>
 
         <svg
           className={`stroke-gray-500 dark:stroke-gray-400 transition-transform duration-200 ${
@@ -59,15 +60,15 @@ export default function UserDropdown() {
       >
         <div className="p-4 border-b border-gray-100 dark:border-gray-700">
           <span className="block font-medium text-gray-900 dark:text-white text-sm">
-            Raj Kumar Gupta
+            Jayant
           </span>
           <span className="block mt-1 text-xs text-gray-500 dark:text-gray-400">
-            rkg@gmail.com
+            JayantBanrakas@gmail.com
           </span>
         </div>
 
         <div className="p-2">
-          <Link
+          {/* <Link
             href="/profile"
             className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-150"
           >
@@ -95,7 +96,7 @@ export default function UserDropdown() {
               />
             </svg>
             Profile
-          </Link>
+          </Link> */}
 
           <Link
             href="/settings"
