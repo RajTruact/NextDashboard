@@ -1,15 +1,39 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [
-      "plus.unsplash.com",
-      "images.unsplash.com",
-      "cdn-icons-png.flaticon.com",
-      "previews.123rf.com",
-      "c8.alamy.com",
-      "akm-img-a-in.tosshub.com",
-      "www.truact.in",
-      "encrypted-tbn0.gstatic.com",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "plus.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn-icons-png.flaticon.com",
+      },
+      {
+        protocol: "https",
+        hostname: "previews.123rf.com",
+      },
+      {
+        protocol: "https",
+        hostname: "c8.alamy.com",
+      },
+      {
+        protocol: "https",
+        hostname: "akm-img-a-in.tosshub.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.truact.in",
+      },
+      {
+        protocol: "https",
+        hostname: "encrypted-tbn0.gstatic.com",
+      },
     ],
   },
 };

@@ -1,108 +1,53 @@
+// layout/AppSidebar.jsx
 "use client";
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSidebar } from "../context/SidebarContext";
-import {
-  BoxIcon,
-  Calendar,
-  ChevronDown,
-  FlipHorizontal2Icon,
-  GridIcon,
-  Kanban,
-  List,
-  PackagePlus,
-  PieChart,
-  PlugIcon,
-  Settings,
-  Table,
-  UserCircle,
-} from "lucide-react";
+import { ChevronDown, FlipHorizontal2Icon, Settings } from "lucide-react";
 import { Dropdown } from "../components/ui/dropdown/Dropdown";
 import { DropdownItem } from "../components/ui/dropdown/DropdownItem";
+import sidebarConfig from "../config/sidebarConfig";
 
-const navItems = [
-  {
-    icon: <GridIcon />,
-    name: "Dashboard",
-    path: "/",
-    // subItems: [{ name: "Ecommerce", path: "/", pro: false }],
-  },
-  {
-    icon: <Kanban />,
-    name: "Kanban",
-    path: "/kanban",
-  },
-  {
-    icon: <UserCircle />,
-    name: "User Profile",
-    path: "/profile",
-  },
-
-  {
-    name: "Forms",
-    icon: <List />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
-  },
-  {
-    name: "Tables",
-    icon: <Table />,
-    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
-  },
-  {
-    name: "Pages",
-    icon: <PackagePlus />,
-    subItems: [
-      { name: "Blank Page", path: "/blank", pro: false },
-      { name: "404 Error", path: "/error-404", pro: false },
-    ],
-  },
-];
-
-const othersItems = [
-  {
-    icon: <PieChart />,
-    name: "Charts",
-    subItems: [
-      { name: "Line Chart", path: "/line-chart", pro: false },
-      { name: "Bar Chart", path: "/bar-chart", pro: false },
-    ],
-  },
-  // {
-  //   icon: <BoxIcon />,
-  //   name: "UI Elements",
-  //   subItems: [
-  //     { name: "Alerts", path: "/alerts", pro: false },
-  //     { name: "Avatar", path: "/avatars", pro: false },
-  //     { name: "Badge", path: "/badge", pro: false },
-  //     { name: "Buttons", path: "/buttons", pro: false },
-  //     { name: "Images", path: "/images", pro: false },
-  //     { name: "Videos", path: "/videos", pro: false },
-  //   ],
-  // },
-  {
-    icon: <PlugIcon />,
-    name: "Authentication",
-    subItems: [
-      { name: "Sign In", path: "/signin", pro: false },
-      { name: "Sign Up", path: "/signup", pro: false },
-    ],
-  },
-];
-
-const AppSidebar = () => {
-  const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
+const AppSidebar = ({ role = "admin" }) => {
+  const { isExpanded, isMobileOpen, isHovered } = useSidebar();
   const pathname = usePathname();
 
-  const renderMenuItems = (navItems, menuType) => (
+  const [openSubmenu, setOpenSubmenu] = useState(null);
+  const [subMenuHeight, setSubMenuHeight] = useState({});
+  const subMenuRefs = useRef({});
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+  const isActive = useCallback((path) => path === pathname, [pathname]);
+
+  // Get the correct sidebar config based on role
+  const roleConfig = sidebarConfig[role] || sidebarConfig.admin;
+
+  const handleSubmenuToggle = (index, menuType) => {
+    setOpenSubmenu((prev) =>
+      prev?.type === menuType && prev?.index === index
+        ? null
+        : { type: menuType, index }
+    );
+  };
+
+  const toggleSettings = () => {
+    setIsSettingsOpen(!isSettingsOpen);
+  };
+
+  const closeSettings = () => {
+    setIsSettingsOpen(false);
+  };
+
+  const renderMenuItems = (items, menuType) => (
     <ul className="flex flex-col gap-4">
-      {navItems.map((nav, index) => (
+      {items.map((nav, index) => (
         <li key={nav.name}>
           {nav.subItems ? (
             <button
               onClick={() => handleSubmenuToggle(index, menuType)}
-              className={`menu-item group  ${
+              className={`menu-item group ${
                 openSubmenu?.type === menuType && openSubmenu?.index === index
                   ? "menu-item-active"
                   : "menu-item-inactive"
@@ -113,7 +58,7 @@ const AppSidebar = () => {
               }`}
             >
               <span
-                className={` ${
+                className={`${
                   openSubmenu?.type === menuType && openSubmenu?.index === index
                     ? "menu-item-icon-active"
                     : "menu-item-icon-inactive"
@@ -122,11 +67,11 @@ const AppSidebar = () => {
                 {nav.icon}
               </span>
               {(isExpanded || isHovered || isMobileOpen) && (
-                <span className={`menu-item-text`}>{nav.name}</span>
+                <span className="menu-item-text">{nav.name}</span>
               )}
               {(isExpanded || isHovered || isMobileOpen) && (
                 <ChevronDown
-                  className={`ml-auto w-5 h-5 transition-transform duration-200  ${
+                  className={`ml-auto w-5 h-5 transition-transform duration-200 ${
                     openSubmenu?.type === menuType &&
                     openSubmenu?.index === index
                       ? "rotate-180 text-brand-500"
@@ -153,16 +98,15 @@ const AppSidebar = () => {
                   {nav.icon}
                 </span>
                 {(isExpanded || isHovered || isMobileOpen) && (
-                  <span className={`menu-item-text`}>{nav.name}</span>
+                  <span className="menu-item-text">{nav.name}</span>
                 )}
               </Link>
             )
           )}
+
           {nav.subItems && (isExpanded || isHovered || isMobileOpen) && (
             <div
-              ref={(el) => {
-                subMenuRefs.current[`${menuType}-${index}`] = el;
-              }}
+              ref={(el) => (subMenuRefs.current[`${menuType}-${index}`] = el)}
               className="overflow-hidden transition-all duration-300"
               style={{
                 height:
@@ -172,41 +116,23 @@ const AppSidebar = () => {
               }}
             >
               <ul className="mt-2 space-y-1 ml-9">
-                {nav.subItems.map((subItem) => (
-                  <li key={subItem.name}>
+                {nav.subItems.map((sub) => (
+                  <li key={sub.name}>
                     <Link
-                      href={subItem.path}
+                      href={sub.path}
                       className={`menu-dropdown-item ${
-                        isActive(subItem.path)
+                        isActive(sub.path)
                           ? "menu-dropdown-item-active"
                           : "menu-dropdown-item-inactive"
                       }`}
                     >
-                      {subItem.name}
-                      <span className="flex items-center gap-1 ml-auto">
-                        {subItem.new && (
-                          <span
-                            className={`ml-auto ${
-                              isActive(subItem.path)
-                                ? "menu-dropdown-badge-active"
-                                : "menu-dropdown-badge-inactive"
-                            } menu-dropdown-badge `}
-                          >
-                            new
-                          </span>
-                        )}
-                        {subItem.pro && (
-                          <span
-                            className={`ml-auto ${
-                              isActive(subItem.path)
-                                ? "menu-dropdown-badge-active"
-                                : "menu-dropdown-badge-inactive"
-                            } menu-dropdown-badge `}
-                          >
-                            pro
-                          </span>
-                        )}
-                      </span>
+                      {sub.name}
+                      {sub.pro && (
+                        <span className="menu-dropdown-badge">pro</span>
+                      )}
+                      {sub.new && (
+                        <span className="menu-dropdown-badge">new</span>
+                      )}
                     </Link>
                   </li>
                 ))}
@@ -218,74 +144,31 @@ const AppSidebar = () => {
     </ul>
   );
 
-  const [openSubmenu, setOpenSubmenu] = useState(null);
-  const [subMenuHeight, setSubMenuHeight] = useState({});
-  const settingsRef = useRef(null);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-
-  const subMenuRefs = useRef({});
-
-  // const isActive = (path: string) => path === pathname;
-  const isActive = useCallback((path) => path === pathname, [pathname]);
-
+  // Auto expand active submenu
   useEffect(() => {
-    // Check if the current path matches any submenu item
-    let submenuMatched = false;
-    ["main", "others"].forEach((menuType) => {
-      const items = menuType === "main" ? navItems : othersItems;
+    Object.entries(roleConfig).forEach(([type, items]) => {
       items.forEach((nav, index) => {
-        if (nav.subItems) {
-          nav.subItems.forEach((subItem) => {
-            if (isActive(subItem.path)) {
-              setOpenSubmenu({
-                type: menuType,
-                index,
-              });
-              submenuMatched = true;
-            }
-          });
-        }
+        nav.subItems?.forEach((sub) => {
+          if (isActive(sub.path)) {
+            setOpenSubmenu({ type, index });
+          }
+        });
       });
     });
+  }, [pathname, isActive, roleConfig]);
 
-    // If no submenu item matches, close the open submenu
-    if (!submenuMatched) {
-      setOpenSubmenu(null);
-    }
-  }, [pathname, isActive]);
-
+  // Calculate submenu height
   useEffect(() => {
-    // Set the height of the submenu items when the submenu is opened
-    if (openSubmenu !== null) {
+    if (openSubmenu) {
       const key = `${openSubmenu.type}-${openSubmenu.index}`;
       if (subMenuRefs.current[key]) {
-        setSubMenuHeight((prevHeights) => ({
-          ...prevHeights,
+        setSubMenuHeight((prev) => ({
+          ...prev,
           [key]: subMenuRefs.current[key]?.scrollHeight || 0,
         }));
       }
     }
   }, [openSubmenu]);
-
-  const handleSubmenuToggle = (index, menuType) => {
-    setOpenSubmenu((prevOpenSubmenu) => {
-      if (
-        prevOpenSubmenu &&
-        prevOpenSubmenu.type === menuType &&
-        prevOpenSubmenu.index === index
-      ) {
-        return null;
-      }
-      return { type: menuType, index };
-    });
-  };
-
-  const toggleSettings = () => {
-    setIsSettingsOpen(!isSettingsOpen);
-  };
-  const closeSettings = () => {
-    setIsSettingsOpen(false);
-  };
 
   return (
     <aside
@@ -299,11 +182,10 @@ const AppSidebar = () => {
         }
         ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
         lg:translate-x-0`}
-      // onMouseEnter={() => !isExpanded && setIsHovered(true)}
-      // onMouseLeave={() => setIsHovered(false)}
     >
+      {/* Logo */}
       <div
-        className={`py-8 flex  ${
+        className={`py-8 flex ${
           !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
         }`}
       >
@@ -335,6 +217,8 @@ const AppSidebar = () => {
           )}
         </Link>
       </div>
+
+      {/* Sidebar Content */}
       <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
         <nav className="mb-6">
           <div className="flex flex-col gap-4">
@@ -352,29 +236,15 @@ const AppSidebar = () => {
                   <FlipHorizontal2Icon />
                 )}
               </h2>
-              {renderMenuItems(navItems, "main")}
+              {renderMenuItems(roleConfig.main, "main")}
             </div>
 
-            <div className="">
-              <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
-                  !isExpanded && !isHovered
-                    ? "lg:justify-center"
-                    : "justify-start"
-                }`}
-              >
-                {isExpanded || isHovered || isMobileOpen ? (
-                  ""
-                ) : (
-                  <FlipHorizontal2Icon />
-                )}
-              </h2>
-              {renderMenuItems(othersItems, "others")}
-            </div>
+            <div>{renderMenuItems(roleConfig.others, "others")}</div>
           </div>
         </nav>
-        {/* {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null} */}
       </div>
+
+      {/* Settings Section */}
       <div className="mt-auto py-4 border-t border-gray-200 dark:border-gray-800">
         <div className="relative">
           <button
