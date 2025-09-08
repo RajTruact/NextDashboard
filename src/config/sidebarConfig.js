@@ -12,6 +12,9 @@ import {
   Settings,
   Shield,
   Database,
+  FileText,
+  ShoppingBag,
+  TrendingDownIcon,
 } from "lucide-react";
 
 const sidebarConfig = {
@@ -51,6 +54,44 @@ const sidebarConfig = {
         name: "Faculty Access",
         path: "/dashboard/faculty",
         icon: <BookOpen className="w-5 h-5" />,
+      },
+      {
+        name: "Reports",
+        icon: <BarChart3 className="w-5 h-5" />,
+        subItems: [
+          {
+            heading: "Purchase Reports",
+            icon: <ShoppingBag className="w-4 h-4" />,
+            children: [
+              {
+                name: "Report A",
+                path: "/dashboard/faculty/reports/purchase/a",
+                icon: <FileText className="w-4 h-4" />,
+              },
+              {
+                name: "Report B",
+                path: "/dashboard/faculty/reports/purchase/b",
+                icon: <FileText className="w-4 h-4" />,
+              },
+            ],
+          },
+          {
+            heading: "Selling Reports",
+            icon: <TrendingDownIcon className="w-4 h-4" />,
+            children: [
+              {
+                name: "Report C",
+                path: "/dashboard/faculty/reports/selling/c",
+                icon: <FileText className="w-4 h-4" />,
+              },
+              {
+                name: "Report D",
+                path: "/dashboard/faculty/reports/selling/d",
+                icon: <FileText className="w-4 h-4" />,
+              },
+            ],
+          },
+        ],
       },
     ],
     others: [

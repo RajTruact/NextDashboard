@@ -117,23 +117,52 @@ const AppSidebar = ({ role = "admin" }) => {
             >
               <ul className="mt-2 space-y-1 ml-9">
                 {nav.subItems.map((sub) => (
-                  <li key={sub.name}>
-                    <Link
-                      href={sub.path}
-                      className={`menu-dropdown-item ${
-                        isActive(sub.path)
-                          ? "menu-dropdown-item-active"
-                          : "menu-dropdown-item-inactive"
-                      }`}
-                    >
-                      {sub.name}
-                      {sub.pro && (
-                        <span className="menu-dropdown-badge">pro</span>
-                      )}
-                      {sub.new && (
-                        <span className="menu-dropdown-badge">new</span>
-                      )}
-                    </Link>
+                  <li key={sub.heading || sub.name}>
+                    {sub.heading ? (
+                      <div className="mb-2">
+                        <h4 className="flex items-center gap-2 text-xs uppercase text-gray-400 dark:text-gray-500 ml-2 mb-1">
+                          {sub.icon && (
+                            <span className="w-4 h-4">{sub.icon}</span>
+                          )}
+                          {sub.heading}
+                        </h4>
+                        <ul className="ml-6 space-y-1">
+                          {sub.children.map((child) => (
+                            <li key={child.name}>
+                              <Link
+                                href={child.path}
+                                className={`menu-dropdown-item flex items-center gap-2 ${
+                                  isActive(child.path)
+                                    ? "menu-dropdown-item-active"
+                                    : "menu-dropdown-item-inactive"
+                                }`}
+                              >
+                                {child.icon && (
+                                  <span className="menu-dropdown-icon">
+                                    {child.icon}
+                                  </span>
+                                )}
+                                {child.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : (
+                      <Link
+                        href={sub.path}
+                        className={`menu-dropdown-item flex items-center gap-2 ${
+                          isActive(sub.path)
+                            ? "menu-dropdown-item-active"
+                            : "menu-dropdown-item-inactive"
+                        }`}
+                      >
+                        {sub.icon && (
+                          <span className="menu-dropdown-icon">{sub.icon}</span>
+                        )}
+                        {sub.name}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
