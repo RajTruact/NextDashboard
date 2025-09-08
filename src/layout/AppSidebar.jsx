@@ -120,13 +120,13 @@ const AppSidebar = ({ role = "admin" }) => {
                   <li key={sub.heading || sub.name}>
                     {sub.heading ? (
                       <div className="mb-2">
-                        <h4 className="flex items-center gap-2 text-xs uppercase text-gray-400 dark:text-gray-500 ml-2 mb-1">
+                        <h4 className="flex items-center gap-2 text-xs uppercase text-gray-400 dark:text-gray-500 ml-0 mb-2 mt-4">
                           {sub.icon && (
                             <span className="w-4 h-4">{sub.icon}</span>
                           )}
                           {sub.heading}
                         </h4>
-                        <ul className="ml-6 space-y-1">
+                        <ul className="ml-1 space-y-1">
                           {sub.children.map((child) => (
                             <li key={child.name}>
                               <Link
