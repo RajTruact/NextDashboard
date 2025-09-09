@@ -15,6 +15,16 @@ import {
   FileText,
   ShoppingBag,
   TrendingDownIcon,
+  Accessibility,
+  RemoveFormatting,
+  ReceiptPoundSterling,
+  AmpersandIcon,
+  Ampersand,
+  LucideAccessibility,
+  AudioWaveform,
+  DiamondPercentIcon,
+  DiscAlbumIcon,
+  FileSignatureIcon,
 } from "lucide-react";
 
 const sidebarConfig = {
@@ -96,9 +106,36 @@ const sidebarConfig = {
     ],
     others: [
       {
-        name: "System Settings",
-        path: "/superadmin/settings",
-        icon: <Settings className="w-5 h-5" />,
+        name: "Acess Control",
+        icon: <Accessibility className="w-5 h-5" />,
+        subItems: [
+          {
+            heading: "Acess Reports",
+            icon: <ReceiptPoundSterling className="w-4 h-4" />,
+            children: [
+              {
+                name: "Admin Access",
+                path: "/dashboard/faculty/reports/purchase/a",
+                icon: <AudioWaveform className="w-4 h-4" />,
+              },
+              {
+                name: "Donor Access",
+                path: "/dashboard/faculty/reports/purchase/b",
+                icon: <DiamondPercentIcon className="w-4 h-4" />,
+              },
+              {
+                name: "Alumni Access",
+                path: "/dashboard/faculty/reports/purchase/b",
+                icon: <DiscAlbumIcon className="w-4 h-4" />,
+              },
+              {
+                name: "Faculty Access",
+                path: "/dashboard/faculty/reports/purchase/b",
+                icon: <FileSignatureIcon className="w-4 h-4" />,
+              },
+            ],
+          },
+        ],
       },
     ],
   },
