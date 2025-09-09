@@ -4,17 +4,16 @@ import HeaderSettings from "../components/header/HeaderSettings";
 import NotificationDropdown from "../components/header/NotificationDropdown";
 import UserDropdown from "../components/header/UserDropdown";
 import { useSidebar } from "../context/SidebarContext";
-import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect, useRef } from "react";
 import { Search, X } from "lucide-react";
-import { MoonIcon } from "../components/common/MoonIcon";
 
 const AppHeader = () => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
+  const [isSearchDialogOpen, setIsSearchDialogOpen] = useState(false);
 
   const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
 
@@ -71,6 +70,7 @@ const AppHeader = () => {
 
   const inputRef = useRef(null);
   const searchRef = useRef(null);
+  const mobileSearchRef = useRef(null);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -85,12 +85,23 @@ const AppHeader = () => {
         setShowSearchResults(false);
         inputRef.current?.blur();
       }
+      
+      // Close search dialog on escape
+      if (event.key === "Escape" && isSearchDialogOpen) {
+        setIsSearchDialogOpen(false);
+      }
     };
 
     // Close search results when clicking outside
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
         setShowSearchResults(false);
+      }
+      
+      // Close mobile search dialog when clicking outside
+      if (mobileSearchRef.current && !mobileSearchRef.current.contains(event.target) && 
+          !event.target.closest('.mobile-search-icon')) {
+        setIsSearchDialogOpen(false);
       }
     };
 
@@ -101,7 +112,7 @@ const AppHeader = () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [showSearchResults]);
+  }, [showSearchResults, isSearchDialogOpen]);
 
   // Filter results based on search query
   const filteredResults = searchQuery
@@ -119,12 +130,25 @@ const AppHeader = () => {
 
   const handleSearchBlur = () => {
     setIsSearchFocused(false);
-    // Don't immediately hide results to allow clicking on them
   };
 
   const clearSearch = () => {
     setSearchQuery("");
     inputRef.current?.focus();
+  };
+
+  const openSearchDialog = () => {
+    setIsSearchDialogOpen(true);
+    // Focus on input when dialog opens
+    setTimeout(() => {
+      const mobileInput = document.getElementById("mobile-search-input");
+      if (mobileInput) mobileInput.focus();
+    }, 100);
+  };
+
+  const closeSearchDialog = () => {
+    setIsSearchDialogOpen(false);
+    setShowSearchResults(false);
   };
 
   return (
@@ -169,63 +193,115 @@ const AppHeader = () => {
             )}
           </button>
 
-          {/* Mobile Search */}
-          <div className="relative sm:hidden" ref={searchRef}>
-            <span className="absolute -translate-y-1/2 left-4 top-1/2 pointer-events-none">
-              <Search className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-            </span>
-            <input
-              ref={inputRef}
-              type="text"
-              placeholder="Search "
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onFocus={handleSearchFocus}
-              onBlur={handleSearchBlur}
-              className="dark:bg-dark-900 h-10 w-full rounded-lg border border-gray-200 bg-transparent py-2.5 pl-12 pr-10 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-800 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
-            />
-            {searchQuery && (
-              <button
-                onClick={clearSearch}
-                className="absolute -translate-y-1/2 right-3 top-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
-
-            {/* Search Results Dropdown for Mobile */}
-            {showSearchResults && filteredResults.length > 0 && (
-              <div className="absolute left-0 right-0 z-50 mt-2 overflow-hidden bg-white rounded-lg shadow-theme-lg top-full dark:bg-gray-900 dark:border dark:border-gray-800">
-                <div className="max-h-64 overflow-y-auto">
-                  {filteredResults.map((result) => (
-                    <Link
-                      key={result.id}
-                      href={result.url}
-                      className="block px-4 py-3 border-b border-gray-100 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800 last:border-b-0"
-                      onClick={() => setShowSearchResults(false)}
-                    >
-                      <div className="font-medium text-gray-900 dark:text-white">
-                        {result.title}
-                      </div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400">
-                        {result.description}
-                      </div>
-                      <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-                        {result.type}
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-                <Link
-                  href="/search-results"
-                  className="block px-4 py-3 text-sm font-medium text-center text-blue-600 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:text-blue-400 dark:hover:bg-gray-700"
-                  onClick={() => setShowSearchResults(false)}
-                >
-                  View all results
-                </Link>
-              </div>
-            )}
+          {/* Application Name - Visible on mobile */}
+          <div className="lg:hidden">
+            <p className="text-sm font-medium text-gray-900 dark:text-white">After Sales Support</p>
           </div>
+
+          {/* Mobile Search Icon */}
+          <button 
+            className="lg:hidden mobile-search-icon p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white"
+            onClick={openSearchDialog}
+            aria-label="Open search"
+          >
+            <Search className="w-5 h-5" />
+          </button>
+
+          {/* Mobile Search Dialog */}
+          {isSearchDialogOpen && (
+            <div className="fixed inset-0 z-50 bg-black bg-opacity-50 lg:hidden">
+              <div className="absolute top-0 left-0 right-0 bg-white p-4 dark:bg-gray-900" ref={mobileSearchRef}>
+                <div className="flex items-center mb-4">
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white flex-grow">Search</h3>
+                  <button 
+                    onClick={closeSearchDialog}
+                    className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white"
+                    aria-label="Close search"
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
+                
+                <div className="relative">
+                  <span className="absolute -translate-y-1/2 left-3 top-1/2 pointer-events-none">
+                    <Search className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                  </span>
+                  <input
+                    id="mobile-search-input"
+                    type="text"
+                    placeholder="Search..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onFocus={handleSearchFocus}
+                    className="dark:bg-dark-900 h-12 w-full rounded-lg border border-gray-200 bg-transparent py-2.5 pl-10 pr-10 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-800 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={clearSearch}
+                      className="absolute -translate-y-1/2 right-3 top-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Search Results for Mobile Dialog */}
+                {showSearchResults && filteredResults.length > 0 && (
+                  <div className="mt-4 overflow-hidden bg-white rounded-lg shadow-theme-lg dark:bg-gray-900 dark:border dark:border-gray-800">
+                    <div className="max-h-64 overflow-y-auto">
+                      {filteredResults.map((result) => (
+                        <Link
+                          key={result.id}
+                          href={result.url}
+                          className="block px-4 py-3 border-b border-gray-100 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800 last:border-b-0"
+                          onClick={closeSearchDialog}
+                        >
+                          <div className="font-medium text-gray-900 dark:text-white">
+                            {result.title}
+                          </div>
+                          <div className="text-sm text-gray-600 dark:text-gray-400">
+                            {result.description}
+                          </div>
+                          <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                            {result.type}
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                    <Link
+                      href={`/search-results?q=${searchQuery}`}
+                      className="block px-4 py-3 text-sm font-medium text-center text-blue-600 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:text-blue-400 dark:hover:bg-gray-700"
+                      onClick={closeSearchDialog}
+                    >
+                      View all results for "{searchQuery}"
+                    </Link>
+                  </div>
+                )}
+
+                {/* Recent searches (when no query) */}
+                {!searchQuery && (
+                  <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
+                    <div className="mb-2 font-medium">Recent searches</div>
+                    <div className="space-y-2">
+                      {searchResults.slice(0, 3).map((result) => (
+                        <div
+                          key={result.id}
+                          className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+                          onClick={() => {
+                            setSearchQuery(result.title);
+                            const mobileInput = document.getElementById("mobile-search-input");
+                            if (mobileInput) mobileInput.focus();
+                          }}
+                        >
+                          {result.title}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
           <button
             onClick={toggleApplicationMenu}
@@ -276,9 +352,6 @@ const AppHeader = () => {
                     <X className="w-4 h-4" />
                   </button>
                 )}
-                {/* <button className="absolute -translate-y-1/2 right-12 top-1/2 inline-flex items-center gap-0.5 rounded-lg border border-gray-200 bg-gray-50 px-[7px] py-[4.5px] text-xs -tracking-[0.2px] text-gray-500 dark:border-gray-800 dark:bg-white/[0.03] dark:text-gray-400">
-                  <span>⌘K</span>
-                </button> */}
 
                 {/* Search Results Dropdown for Desktop */}
                 {showSearchResults && filteredResults.length > 0 && (
