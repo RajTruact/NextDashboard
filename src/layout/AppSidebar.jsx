@@ -22,6 +22,7 @@ const AppSidebar = ({ role = "admin" }) => {
   const isActive = useCallback((path) => path === pathname, [pathname]);
 
   // Get the correct sidebar config based on role
+  //
   const roleConfig = sidebarConfig[role] || sidebarConfig.admin;
 
   const handleSubmenuToggle = (index, menuType) => {
