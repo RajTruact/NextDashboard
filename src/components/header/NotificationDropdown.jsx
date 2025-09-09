@@ -41,7 +41,7 @@ export default function NotificationDropdown() {
       type: "Task",
       time: "1 hr ago",
       status: "error",
-      read: true,
+      read: false,
     },
     {
       id: 4,
@@ -69,7 +69,7 @@ export default function NotificationDropdown() {
       message: "commented on your task",
       project: "Project - DesignPro",
       type: "Task",
-      time: "1 hr ago",
+      time: "5 hr ago",
       status: "error",
       read: true,
     },
@@ -79,19 +79,9 @@ export default function NotificationDropdown() {
       message: "assigned you a new task",
       project: "Project - AI Engine",
       type: "Task",
-      time: "2 hrs ago",
+      time: "6 hrs ago",
       status: "online",
-      read: false,
-    },
-    {
-      id: 8,
-      name: "David Warner",
-      message: "uploaded new files",
-      project: "Project - CloudHub",
-      type: "File",
-      time: "3 hrs ago",
-      status: "online",
-      read: false,
+      read: true,
     },
   ]);
 
@@ -153,19 +143,23 @@ export default function NotificationDropdown() {
   };
 
   // Filter notifications based on selected filter
-  const filteredNotifications = notifications.filter((n) => {
-    if (filter === "unread") return !n.read;
-    return true;
-  });
+  // const filteredNotifications = notifications.filter((n) => {
+  //   if (filter === "unread") return !n.read;
+  //   return true;
+  // });
 
   // Sort notifications: unread first, then by time (newest first)
-  const sortedNotifications = [...filteredNotifications].sort((a, b) => {
-    if (a.read !== b.read) {
-      return a.read ? 1 : -1;
-    }
-    // Simple time comparison - in a real app you'd parse the time strings
-    return a.id > b.id ? -1 : 1;
-  });
+  // const sortedNotifications = [...filteredNotifications].sort((a, b) => {
+  //   if (a.read !== b.read) {
+  //     return a.read ? 1 : -1;
+  //   }
+  //   // Simple time comparison - in a real app you'd parse the time strings
+  //   return a.id > b.id ? -1 : 1;
+  // });
+
+  const filteredNotifications = [...notifications]
+    .filter((n) => (filter === "unread" ? !n.read : true))
+    .sort((a, b) => a.minutesAgo - b.minutesAgo);
 
   return (
     <div className="relative" ref={dropdownRef}>
@@ -249,14 +243,14 @@ export default function NotificationDropdown() {
         </div>
 
         <ul className="flex flex-col h-auto overflow-y-auto custom-scrollbar">
-          {sortedNotifications.length === 0 ? (
+          {filteredNotifications.length === 0 ? (
             <li className="p-4 text-center text-gray-500 dark:text-gray-400">
               {filter === "unread"
                 ? "No unread notifications"
                 : "No notifications yet"}
             </li>
           ) : (
-            sortedNotifications.map((n) => (
+            filteredNotifications.map((n) => (
               <li
                 key={n.id}
                 className={`flex items-start justify-between ${
