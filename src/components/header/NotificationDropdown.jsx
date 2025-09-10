@@ -182,7 +182,7 @@ export default function NotificationDropdown() {
       {/* Dropdown */}
       <Dropdown
         isOpen={isOpen}
-        onClose={closeDropdown}
+        ref={dropdownRef}
         className="absolute left-[30vw] -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-0 mt-2 flex max-h-[480px] w-[390px] max-w-[calc(100vw-2rem)] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark"
       >
         <div className="flex items-center justify-between pb-3 mb-3 border-b border-gray-100 dark:border-gray-700">
@@ -208,13 +208,6 @@ export default function NotificationDropdown() {
                 Clear All
               </button>
             )}
-            <button
-              onClick={closeDropdown}
-              className="ml-2 text-gray-500 transition dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
-              aria-label="Close notifications"
-            >
-              <X className="w-5 h-5" />
-            </button>
           </div>
         </div>
 
