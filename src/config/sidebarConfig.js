@@ -106,7 +106,7 @@ const sidebarConfig = {
     ],
     others: [
       {
-        name: "Acess Control",
+        name: "Acess Controls",
         icon: <Accessibility className="w-5 h-5" />,
         subItems: [
           {
