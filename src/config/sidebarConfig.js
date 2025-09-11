@@ -36,7 +36,7 @@ const sidebarConfig = {
         icon: <Shield className="w-5 h-5" />,
       },
       {
-        name: "All Users",
+        name: "Purchase & Selling & Reorder Reports",
         path: "/superadmin/users",
         icon: <Users className="w-5 h-5" />,
       },

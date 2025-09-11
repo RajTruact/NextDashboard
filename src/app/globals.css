@@ -731,3 +731,20 @@ span.flatpickr-weekday,
   opacity: 0.8;
   cursor: grabbing; /* Changes the cursor to indicate dragging */
 }
+
+/* Keyframes for hover scroll */
+@keyframes scroll-text {
+  0%,
+  10% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Apply scrolling on hover */
+.hover\:animate-scroll:hover {
+  display: inline-block;
+  animation: scroll-text 4s linear infinite;
+}

@@ -97,14 +97,16 @@ const AppSidebar = ({ role = "admin" }) => {
                 <span
                   className={`${
                     isActive(nav.path)
-                      ? "menu-item-icon-active"
-                      : "menu-item-icon-inactive"
+                      ? "menu-item-icon-active "
+                      : "menu-item-icon-inactive "
                   }`}
                 >
                   {nav.icon}
                 </span>
                 {(isExpanded || isHovered || isMobileOpen) && (
-                  <span className="truncate menu-item-text">{nav.name}</span>
+                  <span className="menu-item-text inline-block whitespace-nowrap hover:animate-scroll">
+                    {nav.name}
+                  </span>
                 )}
               </Link>
             )
