@@ -37,7 +37,7 @@ const sidebarConfig = {
       },
       {
         name: "Purchase & Selling & Reorder Reports",
-        path: "/superadmin/users",
+        path: "/superadmin/profile",
         icon: <Users className="w-5 h-5" />,
       },
       {

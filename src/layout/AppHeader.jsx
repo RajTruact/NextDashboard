@@ -14,6 +14,7 @@ const AppHeader = () => {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const [isTabletView, setIsTabletView] = useState(false);
 
   const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
 
@@ -55,6 +56,20 @@ const AppHeader = () => {
       url: "/kanban",
     },
   ];
+
+  // Check for tablet view on mount and resize
+  useEffect(() => {
+    const checkTabletView = () => {
+      setIsTabletView(window.innerWidth >= 768 && window.innerWidth < 1024);
+    };
+
+    checkTabletView();
+    window.addEventListener("resize", checkTabletView);
+
+    return () => {
+      window.removeEventListener("resize", checkTabletView);
+    };
+  }, []);
 
   const handleToggle = () => {
     if (window.innerWidth >= 1024) {
@@ -143,7 +158,7 @@ const AppHeader = () => {
 
   const openMobileSearch = () => {
     setIsMobileSearchOpen(true);
-    setApplicationMenuOpen(isApplicationMenuOpen);
+    setApplicationMenuOpen(false);
     // Focus on input when it appears
     setTimeout(() => {
       const mobileInput = document.getElementById("mobile-search-input");
@@ -199,30 +214,90 @@ const AppHeader = () => {
             )}
           </button>
 
-          {/* Application Name - Visible on mobile */}
+          {/* Application Name - Visible on mobile and tablet */}
           <div className="lg:ml-5">
             <p className="text-sm font-medium text-gray-900 dark:text-white pr-2">
               After Sales Support Organisation
             </p>
           </div>
 
-          {/* Mobile Search Icon - Only show when search is closed */}
-          {!isMobileSearchOpen && (
+          {/* Tablet Search - Shows in the header on tablet view */}
+          {isTabletView && (
+            <div className="hidden md:flex flex-grow mx-4" ref={searchRef}>
+              <div className="relative w-full max-w-md">
+                <span className="absolute -translate-y-1/2 left-3 top-1/2 pointer-events-none">
+                  <Search className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                </span>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={handleSearchFocus}
+                  onBlur={handleSearchBlur}
+                  className="dark:bg-dark-900 h-10 w-full rounded-lg border border-gray-200 bg-transparent py-2.5 pl-10 pr-10 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-800 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={clearSearch}
+                    className="absolute -translate-y-1/2 right-3 top-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+
+                {/* Search Results Dropdown for Tablet */}
+                {showSearchResults && filteredResults.length > 0 && (
+                  <div className="absolute left-0 right-0 z-50 mt-2 overflow-hidden bg-white rounded-lg shadow-theme-lg top-full dark:bg-gray-900 dark:border dark:border-gray-800">
+                    <div className="max-h-64 overflow-y-auto">
+                      {filteredResults.map((result) => (
+                        <Link
+                          key={result.id}
+                          href={result.url}
+                          className="block px-4 py-3 border-b border-gray-100 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800 last:border-b-0"
+                          onClick={() => setShowSearchResults(false)}
+                        >
+                          <div className="font-medium text-gray-900 dark:text-white">
+                            {result.title}
+                          </div>
+                          <div className="text-sm text-gray-600 dark:text-gray-400">
+                            {result.description}
+                          </div>
+                          <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                            {result.type}
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                    <Link
+                      href="/search-results"
+                      className="block px-4 py-3 text-sm font-medium text-center text-blue-600 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:text-blue-400 dark:hover:bg-gray-700"
+                      onClick={() => setShowSearchResults(false)}
+                    >
+                      View all results for "{searchQuery}"
+                    </Link>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Mobile Search Icon - Only show when search is closed and not in tablet view */}
+          {!isTabletView && (
             <button
               className="lg:hidden mobile-search-icon p-2 -mr-5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white"
-              onClick={openMobileSearch}
-              aria-label="Open search"
+              onClick={() =>
+                isMobileSearchOpen ? closeMobileSearch() : openMobileSearch()
+              }
+              aria-label="Toggle search"
             >
-              {isApplicationMenuOpen ? (
-                <Search className=" w-5 h-5" />
-              ) : (
-                <Search className="w-5 h-5" />
-              )}
+              <Search className="w-5 h-5" />
             </button>
           )}
 
           {/* Mobile Search Container - Shows at bottom of header */}
-          {isMobileSearchOpen && (
+          {isMobileSearchOpen && !isTabletView && (
             <div
               className="absolute left-0 right-0 top-12 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 p-2 lg:hidden"
               ref={mobileSearchRef}
@@ -325,66 +400,69 @@ const AppHeader = () => {
             isApplicationMenuOpen ? "flex" : "hidden"
           } items-center justify-between w-full gap-4 px-5 py-4 lg:flex shadow-theme-md lg:justify-end lg:px-0 lg:shadow-none`}
         >
-          <div className="hidden lg:block" ref={searchRef}>
-            <form>
-              <div className="relative">
-                <span className="absolute -translate-y-1/2 left-4 top-1/2 pointer-events-none">
-                  <Search className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                </span>
-                <input
-                  ref={inputRef}
-                  type="text"
-                  placeholder="Search "
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={handleSearchFocus}
-                  onBlur={handleSearchBlur}
-                  className="dark:bg-dark-900 h-10 w-full rounded-lg border border-gray-200 bg-transparent py-2.5 pl-12 pr-10 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-800 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800 xl:w-[430px]"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={clearSearch}
-                    className="absolute -translate-y-1/2 right-3 top-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                )}
-
-                {/* Search Results Dropdown for Desktop */}
-                {showSearchResults && filteredResults.length > 0 && (
-                  <div className="absolute left-0 right-0 z-50 mt-2 overflow-hidden bg-white rounded-lg shadow-theme-lg top-full dark:bg-gray-900 dark:border dark:border-gray-800">
-                    <div className="max-h-64 overflow-y-auto">
-                      {filteredResults.map((result) => (
-                        <Link
-                          key={result.id}
-                          href={result.url}
-                          className="block px-4 py-3 border-b border-gray-100 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800 last:border-b-0"
-                          onClick={() => setShowSearchResults(false)}
-                        >
-                          <div className="font-medium text-gray-900 dark:text-white">
-                            {result.title}
-                          </div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400">
-                            {result.description}
-                          </div>
-                          <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-                            {result.type}
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                    <Link
-                      href="/search-results"
-                      className="block px-4 py-3 text-sm font-medium text-center text-blue-600 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:text-blue-400 dark:hover:bg-gray-700"
-                      onClick={() => setShowSearchResults(false)}
+          {/* Desktop Search - Hidden on tablet */}
+          {!isTabletView && (
+            <div className="hidden lg:block" ref={searchRef}>
+              <form>
+                <div className="relative">
+                  <span className="absolute -translate-y-1/2 left-4 top-1/2 pointer-events-none">
+                    <Search className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                  </span>
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    placeholder="Search "
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onFocus={handleSearchFocus}
+                    onBlur={handleSearchBlur}
+                    className="dark:bg-dark-900 h-10 w-full rounded-lg border border-gray-200 bg-transparent py-2.5 pl-12 pr-10 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-800 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800 xl:w-[430px]"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={clearSearch}
+                      className="absolute -translate-y-1/2 right-3 top-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                     >
-                      View all results for "{searchQuery}"
-                    </Link>
-                  </div>
-                )}
-              </div>
-            </form>
-          </div>
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+
+                  {/* Search Results Dropdown for Desktop */}
+                  {showSearchResults && filteredResults.length > 0 && (
+                    <div className="absolute left-0 right-0 z-50 mt-2 overflow-hidden bg-white rounded-lg shadow-theme-lg top-full dark:bg-gray-900 dark:border dark:border-gray-800">
+                      <div className="max-h-64 overflow-y-auto">
+                        {filteredResults.map((result) => (
+                          <Link
+                            key={result.id}
+                            href={result.url}
+                            className="block px-4 py-3 border-b border-gray-100 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800 last:border-b-0"
+                            onClick={() => setShowSearchResults(false)}
+                          >
+                            <div className="font-medium text-gray-900 dark:text-white">
+                              {result.title}
+                            </div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400">
+                              {result.description}
+                            </div>
+                            <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                              {result.type}
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                      <Link
+                        href="/search-results"
+                        className="block px-4 py-3 text-sm font-medium text-center text-blue-600 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:text-blue-400 dark:hover:bg-gray-700"
+                        onClick={() => setShowSearchResults(false)}
+                      >
+                        View all results for "{searchQuery}"
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </form>
+            </div>
+          )}
 
           <div className="flex items-center gap-2 2xsm:gap-3">
             {/* <!-- Dark Mode Toggler --> */}

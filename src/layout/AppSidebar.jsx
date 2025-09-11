@@ -105,8 +105,38 @@ const AppSidebar = ({ role = "admin" }) => {
                   {nav.icon}
                 </span>
                 {(isExpanded || isHovered || isMobileOpen) && (
-                  <span className="menu-item-text inline-block whitespace-nowrap hover:animate-scroll">
-                    {nav.name}
+                  <span className="menu-text-wrapper">
+                    <span
+                      className="menu-text"
+                      onMouseEnter={(e) => {
+                        const el = e.currentTarget;
+                        const wrapper = el.parentElement;
+
+                        // Reset animation so it can retrigger
+                        el.style.animation = "none";
+
+                        // Only animate if text is longer than container
+                        if (el.scrollWidth > wrapper.offsetWidth) {
+                          const shift = `-${
+                            el.scrollWidth - wrapper.offsetWidth
+                          }px`;
+
+                          // Pass dynamic distance via CSS variable
+                          el.style.setProperty("--shift", shift);
+
+                          // Force reflow to restart animation
+                          void el.offsetWidth;
+
+                          el.style.animation =
+                            "marquee-once 4s linear forwards";
+                        }
+                      }}
+                      onAnimationEnd={(e) => {
+                        e.currentTarget.style.animation = "none"; // reset after one run
+                      }}
+                    >
+                      {nav.name}
+                    </span>
                   </span>
                 )}
               </Link>

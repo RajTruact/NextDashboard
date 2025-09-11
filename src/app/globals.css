@@ -731,20 +731,24 @@ span.flatpickr-weekday,
   opacity: 0.8;
   cursor: grabbing; /* Changes the cursor to indicate dragging */
 }
-
-/* Keyframes for hover scroll */
-@keyframes scroll-text {
-  0%,
-  10% {
+@keyframes marquee-once {
+  0% {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(var(--shift));
   }
 }
 
-/* Apply scrolling on hover */
-.hover\:animate-scroll:hover {
+.menu-text-wrapper {
+  position: relative;
+  display: block;
+  max-width: 150px;   /* adjust to sidebar width */
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.menu-text {
   display: inline-block;
-  animation: scroll-text 4s linear infinite;
+  will-change: transform;
 }
