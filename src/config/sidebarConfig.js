@@ -66,7 +66,7 @@ const sidebarConfig = {
         icon: <BookOpen className="w-5 h-5" />,
       },
       {
-        name: "Purchase & Selling Reports",
+        name: "Reports",
         icon: <BarChart3 className="w-5 h-5" />,
         subItems: [
           {
