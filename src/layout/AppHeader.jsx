@@ -13,7 +13,7 @@ const AppHeader = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
-  const [isSearchDialogOpen, setIsSearchDialogOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
 
   const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
 
@@ -86,9 +86,9 @@ const AppHeader = () => {
         inputRef.current?.blur();
       }
 
-      // Close search dialog on escape
-      if (event.key === "Escape" && isSearchDialogOpen) {
-        setIsSearchDialogOpen(false);
+      // Close mobile search on escape
+      if (event.key === "Escape" && isMobileSearchOpen) {
+        setIsMobileSearchOpen(false);
       }
     };
 
@@ -98,14 +98,14 @@ const AppHeader = () => {
         setShowSearchResults(false);
       }
 
-      // Close mobile search dialog when clicking outside
+      // Close mobile search when clicking outside
       if (
-        isSearchDialogOpen &&
+        isMobileSearchOpen &&
         mobileSearchRef.current &&
         !mobileSearchRef.current.contains(event.target) &&
         !event.target.closest(".mobile-search-icon")
       ) {
-        setIsSearchDialogOpen(false);
+        setIsMobileSearchOpen(false);
       }
     };
 
@@ -116,7 +116,7 @@ const AppHeader = () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [showSearchResults, isSearchDialogOpen]);
+  }, [showSearchResults, isMobileSearchOpen]);
 
   // Filter results based on search query
   const filteredResults = searchQuery
@@ -141,17 +141,18 @@ const AppHeader = () => {
     inputRef.current?.focus();
   };
 
-  const openSearchDialog = () => {
-    setIsSearchDialogOpen(true);
-    // Focus on input when dialog opens
+  const openMobileSearch = () => {
+    setIsMobileSearchOpen(true);
+    setApplicationMenuOpen(isApplicationMenuOpen);
+    // Focus on input when it appears
     setTimeout(() => {
       const mobileInput = document.getElementById("mobile-search-input");
       if (mobileInput) mobileInput.focus();
     }, 100);
   };
 
-  const closeSearchDialog = () => {
-    setIsSearchDialogOpen(false);
+  const closeMobileSearch = () => {
+    setIsMobileSearchOpen(false);
     setShowSearchResults(false);
     setSearchQuery(""); // Clear search query when closing
   };
@@ -199,46 +200,35 @@ const AppHeader = () => {
           </button>
 
           {/* Application Name - Visible on mobile */}
-          <div className="lg:hidden">
-            <p className="text-sm font-medium text-gray-900 dark:text-white">
-              After Sales Support
+          <div className="lg:ml-5">
+            <p className="text-sm font-medium text-gray-900 dark:text-white pr-2">
+              After Sales Support Organisation
             </p>
           </div>
 
-          {/* Mobile Search Icon */}
-          <button
-            className="lg:hidden mobile-search-icon p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white -mr-[68px]"
-            onClick={openSearchDialog}
-            aria-label="Open search"
-          >
-            <Search className="w-5 h-5" />
-          </button>
+          {/* Mobile Search Icon - Only show when search is closed */}
+          {!isMobileSearchOpen && (
+            <button
+              className="lg:hidden mobile-search-icon p-2 -mr-5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white"
+              onClick={openMobileSearch}
+              aria-label="Open search"
+            >
+              {isApplicationMenuOpen ? (
+                <Search className="hidden w-5 h-5" />
+              ) : (
+                <Search className="w-5 h-5" />
+              )}
+            </button>
+          )}
 
-          {/* Mobile Search Dialog */}
-          {isSearchDialogOpen && (
-            <div className="fixed inset-0 z-50 bg-black bg-opacity-50 lg:hidden">
-              <div
-                className="absolute inset-0"
-                onClick={closeSearchDialog}
-              ></div>
-              <div
-                className="absolute top-0 left-0 right-0 bg-white p-4 dark:bg-gray-900"
-                ref={mobileSearchRef}
-              >
-                <div className="flex items-center mb-4">
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-white flex-grow">
-                    Search
-                  </h3>
-                  <button
-                    onClick={closeSearchDialog}
-                    className="p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white"
-                    aria-label="Close search"
-                  >
-                    <X className="w-6 h-6" />
-                  </button>
-                </div>
-
-                <div className="relative">
+          {/* Mobile Search Container - Shows at bottom of header */}
+          {isMobileSearchOpen && (
+            <div
+              className="absolute left-0 right-0 top-12 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 p-2 lg:hidden"
+              ref={mobileSearchRef}
+            >
+              <div className="flex items-center gap-2">
+                <div className="relative flex-grow">
                   <span className="absolute -translate-y-1/2 left-3 top-1/2 pointer-events-none">
                     <Search className="w-4 h-4 text-gray-500 dark:text-gray-400" />
                   </span>
@@ -249,7 +239,7 @@ const AppHeader = () => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onFocus={handleSearchFocus}
-                    className="dark:bg-dark-900 h-12 w-full rounded-lg border border-gray-200 bg-transparent py-2.5 pl-10 pr-10 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-800 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
+                    className="dark:bg-dark-900 h-10 w-full rounded-lg border border-gray-200 bg-transparent py-2.5 pl-10 pr-10 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-800 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
                   />
                   {searchQuery && (
                     <button
@@ -260,44 +250,51 @@ const AppHeader = () => {
                     </button>
                   )}
                 </div>
-
-                {/* Search Results for Mobile Dialog */}
-                {showSearchResults && filteredResults.length > 0 && (
-                  <div className="mt-4 overflow-hidden bg-white rounded-lg shadow-theme-lg dark:bg-gray-900 dark:border dark:border-gray-800">
-                    <div className="max-h-64 overflow-y-auto">
-                      {filteredResults.map((result) => (
-                        <Link
-                          key={result.id}
-                          href={result.url}
-                          className="block px-4 py-3 border-b border-gray-100 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800 last:border-b-0"
-                          onClick={closeSearchDialog}
-                        >
-                          <div className="font-medium text-gray-900 dark:text-white">
-                            {result.title}
-                          </div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400">
-                            {result.description}
-                          </div>
-                          <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-                            {result.type}
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                    <Link
-                      href={`/search-results?q=${searchQuery}`}
-                      className="block px-4 py-3 text-sm font-medium text-center text-blue-600 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:text-blue-400 dark:hover:bg-gray-700"
-                      onClick={closeSearchDialog}
-                    >
-                      View all results for "{searchQuery}"
-                    </Link>
-                  </div>
-                )}
+                <button
+                  onClick={closeMobileSearch}
+                  className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white"
+                  aria-label="Close search"
+                >
+                  <X className="w-5 h-5" />
+                </button>
               </div>
+
+              {/* Search Results for Mobile */}
+              {showSearchResults && filteredResults.length > 0 && (
+                <div className="absolute left-0 right-0 z-9999 mt-0 overflow-hidden bg-white rounded-lg shadow-theme-lg top-full dark:bg-gray-900 dark:border dark:border-gray-800">
+                  <div className="max-h-52 overflow-y-auto">
+                    {filteredResults.map((result) => (
+                      <Link
+                        key={result.id}
+                        href={result.url}
+                        className="block px-4 py-3 border-b border-gray-100 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800 last:border-b-0"
+                        onClick={closeMobileSearch}
+                      >
+                        <div className="font-medium text-gray-900 dark:text-white">
+                          {result.title}
+                        </div>
+                        <div className="text-sm text-gray-600 dark:text-gray-400">
+                          {result.description}
+                        </div>
+                        <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                          {result.type}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                  <Link
+                    href={`/search-results?q=${searchQuery}`}
+                    className="block px-4 py-3 text-sm font-medium text-center text-blue-600 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:text-blue-400 dark:hover:bg-gray-700"
+                    onClick={closeMobileSearch}
+                  >
+                    View all results for "{searchQuery}"
+                  </Link>
+                </div>
+              )}
             </div>
           )}
 
-          {!isSearchDialogOpen && (
+          {!isMobileSearchOpen && (
             <button
               onClick={toggleApplicationMenu}
               className="flex items-center justify-center w-10 h-10 text-gray-700 rounded-lg z-50 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 lg:hidden"
@@ -324,6 +321,12 @@ const AppHeader = () => {
           )}
 
           {/* Desktop Search */}
+        </div>
+        <div
+          className={`${
+            isApplicationMenuOpen ? "flex" : "hidden"
+          } items-center justify-between w-full gap-4 px-5 py-4 lg:flex shadow-theme-md lg:justify-end lg:px-0 lg:shadow-none`}
+        >
           <div className="hidden lg:block" ref={searchRef}>
             <form>
               <div className="relative">
@@ -384,12 +387,7 @@ const AppHeader = () => {
               </div>
             </form>
           </div>
-        </div>
-        <div
-          className={`${
-            isApplicationMenuOpen ? "flex" : "hidden"
-          } items-center justify-between w-full gap-4 px-5 py-4 lg:flex shadow-theme-md lg:justify-end lg:px-0 lg:shadow-none`}
-        >
+
           <div className="flex items-center gap-2 2xsm:gap-3">
             {/* <!-- Dark Mode Toggler --> */}
             <ThemeToggleButton />
