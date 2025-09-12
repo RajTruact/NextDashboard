@@ -63,7 +63,7 @@ export default function UserDropdown() {
             Jayant
           </span>
           <span className="block mt-1 text-xs text-gray-500 dark:text-gray-400">
-            JayantBanrakas@gmail.com
+            JayantkumarBanrakas@gmail.com
           </span>
         </div>
 
