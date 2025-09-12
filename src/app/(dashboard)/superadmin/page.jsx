@@ -3,13 +3,13 @@ export default function SuperAdminDashboard() {
   return (
     <div className="grid grid-cols-12 gap-4 md:gap-6">
       <div className="col-span-12">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+        <h1 className="text-md font-bold text-gray-900 dark:text-white">
           Super Admin Dashboard
         </h1>
         <p className="text-gray-600 dark:text-gray-400 mt-2">
           Welcome Super Admin! You have access to all system modules.
         </p>
-        <p className="text-gray-600 dark:text-gray-400 mt-2">
+        <p className="text-gray-600 dark:text-gray-400 mt-2 flex justify-center items-center">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Et quas
           labore atque placeat nesciunt? Eligendi fugiat excepturi consequatur,
           obcaecati architecto deleniti perferendis id ratione commodi ut ad

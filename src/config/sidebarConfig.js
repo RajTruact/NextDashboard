@@ -70,7 +70,7 @@ const sidebarConfig = {
         icon: <BarChart3 className="w-5 h-5" />,
         subItems: [
           {
-            heading: "Purchase Reports",
+            heading: "Purchase And Selling Reports",
             icon: <ShoppingBag className="w-4 h-4" />,
             children: [
               {
@@ -114,7 +114,7 @@ const sidebarConfig = {
             icon: <ReceiptPoundSterling className="w-4 h-4" />,
             children: [
               {
-                name: "Admin Access",
+                name: "Admin Access Report Name",
                 path: "/dashboard/faculty/reports/purchase/a",
                 icon: <AudioWaveform className="w-4 h-4" />,
               },

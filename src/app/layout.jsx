@@ -12,13 +12,13 @@ const outfit = Outfit({
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${outfit.className} dark:bg-gray-900`}>
-        <ViewTransitions>
+      <ViewTransitions>
+        <body className={`${outfit.className} dark:bg-gray-900`}>
           <ThemeProvider>
             <SidebarProvider>{children}</SidebarProvider>
           </ThemeProvider>
-        </ViewTransitions>
-      </body>
+        </body>
+      </ViewTransitions>
     </html>
   );
 }

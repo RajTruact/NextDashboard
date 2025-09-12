@@ -173,7 +173,7 @@ const AppHeader = () => {
   };
 
   return (
-    <header className="sticky top-0 flex w-full bg-white border-gray-200  z-50 dark:border-gray-800 dark:bg-gray-900 lg:border-b sm:h-[63px]">
+    <header className="sticky top-0 flex w-full bg-white border-gray-200  z-50 dark:border-gray-800 dark:bg-gray-900 lg:border-b sm:h-[64px]">
       <div className="flex flex-col items-center justify-between grow lg:flex-row lg:px-6 w-full">
         <div className="flex items-center justify-between w-full gap-2 px-3 py-3 border-b border-gray-200 dark:border-gray-800 sm:gap-4 lg:justify-normal lg:border-b-0 lg:px-0 lg:py-4">
           <button
@@ -216,8 +216,8 @@ const AppHeader = () => {
 
           {/* Application Name - Visible on mobile and tablet */}
           <div className="lg:ml-5">
-            <p className="text-sm font-medium text-gray-900 dark:text-white pr-2">
-              After Sales Support Organisation
+            <p className="text-[18px] font-medium text-gray-900 dark:text-white pr-2">
+              After Sales Support
             </p>
           </div>
 
@@ -398,7 +398,7 @@ const AppHeader = () => {
         <div
           className={`${
             isApplicationMenuOpen ? "flex" : "hidden"
-          } items-center justify-between w-full gap-4 px-5 py-4 lg:flex shadow-theme-md lg:justify-end lg:px-0 lg:shadow-none`}
+          } items-center justify-between w-full gap-4 px-5 py-4 lg:flex shadow-theme-md lg:justify-end lg:px-0 lg:shadow-none  md:dark:bg-[#16181D] md:bg-white md:-mt-1 md:h-[60px] md:dark:border-b-2 md:border-gray-800`}
         >
           {/* Desktop Search - Hidden on tablet */}
           {!isTabletView && (

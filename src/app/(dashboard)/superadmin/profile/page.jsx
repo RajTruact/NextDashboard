@@ -1,17 +1,31 @@
 import React from "react";
-import UserInfoCard from "./UserInfoCard";
+import UserMetaCard from "./UserMetaCard";
+import UserPasswordCard from "./UserPasswordCard";
+import UserEmailCard from "./UserEmailCard";
 
 export default function Profile() {
   return (
     <div>
-      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6 max-h-[83.5vh] overflow-auto">
+      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6 overflow-auto min-h-screen">
         <h3 className="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-7">
-          Profile
+          Update Profile
         </h3>
         <div className="space-y-6">
-          <UserInfoCard />
-          <UserInfoCard />
-          <UserInfoCard />
+          <UserMetaCard />
+        </div>
+
+        <h3 className="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-7 mt-5">
+          Reset Password
+        </h3>
+        <div className="space-y-6">
+          <UserPasswordCard />
+        </div>
+
+        <h3 className="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-7 mt-5">
+          Change Email
+        </h3>
+        <div className="space-y-6">
+          <UserEmailCard />
         </div>
       </div>
     </div>

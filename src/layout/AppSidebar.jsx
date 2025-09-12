@@ -128,7 +128,7 @@ const AppSidebar = ({ role = "admin" }) => {
                           void el.offsetWidth;
 
                           el.style.animation =
-                            "marquee-once 4s linear forwards";
+                            "marquee-once 3s linear forwards";
                         }
                       }}
                       onAnimationEnd={(e) => {
@@ -163,7 +163,39 @@ const AppSidebar = ({ role = "admin" }) => {
                           {sub.icon && (
                             <span className="w-4 h-4">{sub.icon}</span>
                           )}
-                          {sub.heading}
+                          <span className="menu-text-wrapper">
+                            <span
+                              className="menu-text"
+                              onMouseEnter={(e) => {
+                                const el = e.currentTarget;
+                                const wrapper = el.parentElement;
+
+                                // Reset animation so it can retrigger
+                                el.style.animation = "none";
+
+                                // Only animate if text is longer than container
+                                if (el.scrollWidth > wrapper.offsetWidth) {
+                                  const shift = `-${
+                                    el.scrollWidth - wrapper.offsetWidth
+                                  }px`;
+
+                                  // Pass dynamic distance via CSS variable
+                                  el.style.setProperty("--shift", shift);
+
+                                  // Force reflow to restart animation
+                                  void el.offsetWidth;
+
+                                  el.style.animation =
+                                    "marquee-once 3s linear forwards";
+                                }
+                              }}
+                              onAnimationEnd={(e) => {
+                                e.currentTarget.style.animation = "none"; // reset after one run
+                              }}
+                            >
+                              {sub.heading}
+                            </span>
+                          </span>
                         </h4>
                         <ul className="ml-1 space-y-1">
                           {sub.children.map((child) => (
@@ -181,7 +213,41 @@ const AppSidebar = ({ role = "admin" }) => {
                                     {child.icon}
                                   </span>
                                 )}
-                                {child.name}
+                                <span className="menu-text-wrapper">
+                                  <span
+                                    className="menu-text"
+                                    onMouseEnter={(e) => {
+                                      const el = e.currentTarget;
+                                      const wrapper = el.parentElement;
+
+                                      // Reset animation so it can retrigger
+                                      el.style.animation = "none";
+
+                                      // Only animate if text is longer than container
+                                      if (
+                                        el.scrollWidth > wrapper.offsetWidth
+                                      ) {
+                                        const shift = `-${
+                                          el.scrollWidth - wrapper.offsetWidth
+                                        }px`;
+
+                                        // Pass dynamic distance via CSS variable
+                                        el.style.setProperty("--shift", shift);
+
+                                        // Force reflow to restart animation
+                                        void el.offsetWidth;
+
+                                        el.style.animation =
+                                          "marquee-once 3s linear forwards";
+                                      }
+                                    }}
+                                    onAnimationEnd={(e) => {
+                                      e.currentTarget.style.animation = "none"; // reset after one run
+                                    }}
+                                  >
+                                    {child.name}
+                                  </span>
+                                </span>
                               </Link>
                             </li>
                           ))}
