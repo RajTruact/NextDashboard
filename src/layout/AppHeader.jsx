@@ -406,7 +406,7 @@ const AppHeader = () => {
               <form>
                 <div className="relative">
                   <span className="absolute -translate-y-1/2 left-4 top-1/2 pointer-events-none">
-                    <Search className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                    <Search className="w-4 h-4 text-gray-500 dark:text-gray-500" />
                   </span>
                   <input
                     ref={inputRef}

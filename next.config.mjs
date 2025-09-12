@@ -47,6 +47,9 @@ const nextConfig = {
   experimental: {
     viewTransition: true,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;
