@@ -99,7 +99,7 @@ export default function UserDropdown() {
           </Link> */}
 
           <Link
-            href="/settings"
+            href="/settings "
             className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-150"
           >
             <svg
