@@ -398,7 +398,7 @@ const AppHeader = () => {
         <div
           className={`${
             isApplicationMenuOpen ? "flex" : "hidden"
-          } items-center justify-between w-full gap-4 px-5 py-4 lg:flex shadow-theme-md lg:justify-end lg:px-0 lg:shadow-none  md:dark:bg-[#16181D] md:bg-white md:-mt-1 md:h-[60px] md:dark:border-b-2 md:border-gray-800`}
+          } items-center justify-between w-full gap-4 px-5 py-4 lg:flex shadow-theme-md lg:justify-end lg:px-0 lg:shadow-none  md:dark:bg-[#16181D] md:bg-white md:-mt-1 md:h-[60px]  md:border-gray-800`}
         >
           {/* Desktop Search - Hidden on tablet */}
           {!isTabletView && (
