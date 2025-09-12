@@ -217,7 +217,7 @@ const AppHeader = () => {
           {/* Application Name - Visible on mobile and tablet */}
           <div className="lg:ml-5">
             <p className="text-[18px] font-medium text-gray-900 dark:text-white pr-2">
-              After Sales Support
+              After Sales Support Organisation
             </p>
           </div>
 
