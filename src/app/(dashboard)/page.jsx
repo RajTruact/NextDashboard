@@ -29,7 +29,7 @@ export default function Page() {
 
       {/* Text */}
       <p className="mt-6 text-gray-700 dark:text-gray-300 text-lg font-medium animate-pulse">
-        Redirecting to Super Admin Dashboard...
+        Redirecting to Super Admin Dashboard
       </p>
 
       {/* Progress Bar */}
