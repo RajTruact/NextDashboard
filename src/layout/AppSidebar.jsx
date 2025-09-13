@@ -17,8 +17,9 @@ import { DropdownItem } from "../components/ui/dropdown/DropdownItem";
 import sidebarConfig from "../config/sidebarConfig";
 
 const AppSidebar = ({ role = "admin" }) => {
-  const { isExpanded, isMobileOpen, isHovered } = useSidebar();
   const pathname = usePathname();
+  const roles = pathname.split("/")[1];
+  const { isExpanded, isMobileOpen, isHovered } = useSidebar();
 
   const [openSubmenu, setOpenSubmenu] = useState(null);
   const [subMenuHeight, setSubMenuHeight] = useState({});
@@ -446,7 +447,7 @@ const AppSidebar = ({ role = "admin" }) => {
                   </li>
 
                   <li>
-                    <Link href="/superadmin/profile">
+                    <Link href={`/${roles}/profile`}>
                       <DropdownItem
                         onItemClick={closeSettings}
                         tag="a"

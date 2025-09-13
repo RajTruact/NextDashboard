@@ -2,9 +2,9 @@
 import React from "react";
 import { useModal } from "@/src/hooks/useModaol";
 import { Modal } from "@/src/components/ui/modal";
-import Button from "../../../../components/ui/button/Button";
-import Input from "../../../../components/ui/input/InputField";
-import Label from "../../../../components/ui/input/Label";
+import Button from "@/src/components/ui/button/Button";
+import Input from "@/src/components/ui/input/InputField";
+import Label from "@/src/components/ui/input/Label";
 
 export default function UserEmailCard() {
   const { isOpen, openModal, closeModal } = useModal();

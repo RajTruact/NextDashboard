@@ -4,8 +4,11 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
+import { usePathname } from "next/navigation";
 
 export default function UserDropdown() {
+  const pathname = usePathname();
+  const role = pathname.split("/")[1] || "superadmin";
   const [isOpen, setIsOpen] = useState(false);
 
   function toggleDropdown(e) {
@@ -99,7 +102,7 @@ export default function UserDropdown() {
           </Link> */}
 
           <Link
-            href="/settings "
+            href={`/${role}/profile`}
             className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-150"
           >
             <svg
