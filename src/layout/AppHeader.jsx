@@ -215,7 +215,7 @@ const AppHeader = () => {
           </button>
 
           {/* Application Name - Visible on mobile and tablet */}
-          <div className="lg:ml-5">
+          <div className="lg:ml-2">
             <p className="text-[18px] font-medium text-gray-900 dark:text-white pr-2">
               After Sales Support Organisation
             </p>
