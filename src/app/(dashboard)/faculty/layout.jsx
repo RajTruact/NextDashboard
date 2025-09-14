@@ -4,6 +4,7 @@ import AppHeader from "@/src/layout/AppHeader";
 import AppSidebar from "@/src/layout/AppSidebar";
 import Backdrop from "@/src/layout/Backdrop";
 import { useSidebar } from "@/src/context/SidebarContext";
+import AppFooter from "@/src/layout/AppFooter";
 
 export default function FacultyLayout({ children }) {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
@@ -23,6 +24,7 @@ export default function FacultyLayout({ children }) {
       >
         <AppHeader />
         <main className="p-4 md:p-6">{children}</main>
+        <AppFooter />
       </div>
     </div>
   );
