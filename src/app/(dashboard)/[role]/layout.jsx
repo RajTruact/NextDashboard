@@ -5,9 +5,10 @@ import AppSidebar from "@/src/layout/AppSidebar";
 import Backdrop from "@/src/layout/Backdrop";
 import { useSidebar } from "@/src/context/SidebarContext";
 import AppFooter from "@/src/layout/AppFooter";
+import * as React from "react";
 
 export default function RoleLayout({ children, params }) {
-  const { role } = params;
+  const { role } = React.use(params);
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
   const mainContentMargin = isMobileOpen
@@ -25,7 +26,7 @@ export default function RoleLayout({ children, params }) {
       >
         <AppHeader />
         <main className="p-4 md:p-6">{children}</main>
-        <AppFooter/>
+        <AppFooter />
       </div>
     </div>
   );
