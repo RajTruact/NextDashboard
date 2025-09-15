@@ -72,7 +72,7 @@ export default function AdminDashboard() {
           blanditiis a nemo fugiat assumenda eaque voluptatum neque repellat
           sunt earum, velit veniam consequuntur illo!
         </p>
-        <p>
+        <p className="text-gray-600 dark:text-gray-400 mt-2 flex justify-center items-center">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam
           animi ut sint! Odit, sint fuga excepturi dolores fugit maxime
           veritatis temporibus recusandae ullam animi mollitia cumque quia
