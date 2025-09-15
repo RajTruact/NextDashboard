@@ -10,7 +10,7 @@ export default function AdminDashboard() {
           Admin Dashboard
         </h1>
         <p className="text-gray-600 dark:text-gray-400 mt-2">
-          Welcome Admin! You have access to all system modules.
+          Welcome Admin..! You have access to all system modules.
         </p>
         <p className="text-gray-600 dark:text-gray-400 mt-2 flex justify-center items-center">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Et quas
