@@ -9,7 +9,9 @@ import { MailIcon } from "lucide-react";
 
 export default function UserEmailCard() {
   const { isOpen, openModal, closeModal } = useModal();
-  const [step, setStep] = useState(1); // 1 = verify, 2 = update email
+  const [step, setStep] = useState(1); // 1 = verify, 2 = enter new email, 3 = verify OTP
+  const [newEmail, setNewEmail] = useState("");
+  const [otp, setOtp] = useState("");
 
   const handleVerify = (e) => {
     e.preventDefault();
@@ -19,12 +21,31 @@ export default function UserEmailCard() {
     setStep(2);
   };
 
-  const handleSave = (e) => {
+  const handleSendOtp = (e) => {
     e.preventDefault();
-    // Call API to update email
-    console.log("Updating email...");
+    // Call API to send OTP to the new email
+    console.log("Sending OTP to:", newEmail);
+    // On success:
+    setStep(3);
+  };
+
+  const handleVerifyOtp = (e) => {
+    e.preventDefault();
+    // Call API to verify OTP
+    console.log("Verifying OTP:", otp);
+    // On success:
     closeModal();
     setStep(1); // reset flow for next open
+    setNewEmail("");
+    setOtp("");
+    // Show success message
+  };
+
+  const handleCancel = () => {
+    closeModal();
+    setStep(1);
+    setNewEmail("");
+    setOtp("");
   };
 
   return (
@@ -53,9 +74,10 @@ export default function UserEmailCard() {
         </div>
       </div>
 
-      <Modal isOpen={isOpen} onClose={closeModal} className="max-w-[600px] m-4">
+      <Modal isOpen={isOpen} onClose={handleCancel} className="max-w-[600px] m-4">
         <div className="relative w-full p-4 bg-white rounded-3xl dark:bg-gray-900 lg:p-10">
           {step === 1 ? (
+            // Step 1: Verify identity with password
             <>
               <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
                 Verify Identity
@@ -66,7 +88,11 @@ export default function UserEmailCard() {
               <form className="flex flex-col gap-5" onSubmit={handleVerify}>
                 <div>
                   <Label>Current Email</Label>
-                  <Input type="email" placeholder="Enter your email" required />
+                  <Input 
+                    type="email" 
+                    placeholder="Enter your email" 
+                    required 
+                  />
                 </div>
                 <div>
                   <Label>Password</Label>
@@ -77,7 +103,7 @@ export default function UserEmailCard() {
                   />
                 </div>
                 <div className="flex items-center gap-3 mt-6 lg:justify-end">
-                  <Button size="sm" variant="outline" onClick={closeModal}>
+                  <Button size="sm" variant="outline" onClick={handleCancel}>
                     Cancel
                   </Button>
                   <Button size="sm" type="submit">
@@ -86,18 +112,25 @@ export default function UserEmailCard() {
                 </div>
               </form>
             </>
-          ) : (
+          ) : step === 2 ? (
+            // Step 2: Enter new email address
             <>
               <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
                 Update Email
               </h4>
               <p className="mb-6 text-sm text-gray-500 dark:text-gray-400">
-                Enter your new email address.
+                Enter your new email address. We'll send a verification code to this email.
               </p>
-              <form className="flex flex-col gap-5" onSubmit={handleSave}>
+              <form className="flex flex-col gap-5" onSubmit={handleSendOtp}>
                 <div>
                   <Label>New Email</Label>
-                  <Input type="email" placeholder="Enter new email" required />
+                  <Input 
+                    type="email" 
+                    placeholder="Enter new email" 
+                    value={newEmail}
+                    onChange={(e) => setNewEmail(e.target.value)}
+                    required 
+                  />
                 </div>
                 <div>
                   <Label>Confirm New Email</Label>
@@ -108,11 +141,65 @@ export default function UserEmailCard() {
                   />
                 </div>
                 <div className="flex items-center gap-3 mt-6 lg:justify-end">
-                  <Button size="sm" variant="outline" onClick={closeModal}>
-                    Cancel
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    onClick={() => setStep(1)}
+                  >
+                    Back
                   </Button>
                   <Button size="sm" type="submit">
-                    Save Changes
+                    Send Verification Code
+                  </Button>
+                </div>
+              </form>
+            </>
+          ) : (
+            // Step 3: Verify OTP sent to new email
+            <>
+              <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
+                Verify New Email
+              </h4>
+              <p className="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                Enter the verification code sent to {newEmail}.
+              </p>
+              <form className="flex flex-col gap-5" onSubmit={handleVerifyOtp}>
+                <div>
+                  <Label>Verification Code</Label>
+                  <Input
+                    type="text"
+                    placeholder="Enter 6-digit code"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="flex items-center justify-between mt-2">
+                  <button
+                    type="button"
+                    onClick={handleSendOtp}
+                    className="text-sm text-blue-600 hover:underline dark:text-blue-400"
+                  >
+                    Resend Code
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setStep(2)}
+                    className="text-sm text-blue-600 hover:underline dark:text-blue-400"
+                  >
+                    Change Email
+                  </button>
+                </div>
+                <div className="flex items-center gap-3 mt-6 lg:justify-end">
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    onClick={() => setStep(2)}
+                  >
+                    Back
+                  </Button>
+                  <Button size="sm" type="submit">
+                    Verify & Update
                   </Button>
                 </div>
               </form>
