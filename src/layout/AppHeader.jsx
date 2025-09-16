@@ -215,16 +215,30 @@ const AppHeader = () => {
           </button>
 
           {/* Application Name - Visible on mobile and tablet */}
-          <div className="lg:ml-2">
-            <p className="text-[18px] font-medium text-gray-900 dark:text-white pr-2">
-              After Sales Support
-            </p>
-          </div>
+          {isTabletView ? (
+            <div className="lg:ml-2">
+              <p className="text-[18px] font-medium text-gray-900 dark:text-white pr-2 truncate max-w-[240px] md:max-w-[350px]">
+                After Sales Support Dashboard
+              </p>
+            </div>
+          ) : (
+            <div className="lg:ml-2">
+              <p className="text-[18px] font-medium text-gray-900 dark:text-white pr-2">
+                After Sales Support
+              </p>
+            </div>
+          )}
 
           {/* Tablet Search - Shows in the header on tablet view */}
           {isTabletView && (
-            <div className="hidden md:flex flex-grow mx-4" ref={searchRef}>
-              <div className="relative w-full max-w-md">
+            <div
+              className={`
+      hidden md:flex mx-2
+      ${isTabletView ? "max-w-[250px] flex-shrink" : "flex-grow"}
+    `}
+              ref={searchRef}
+            >
+              <div className="relative w-full">
                 <span className="absolute -translate-y-1/2 left-3 top-1/2 pointer-events-none">
                   <Search className="w-4 h-4 text-gray-500 dark:text-gray-400" />
                 </span>
@@ -246,8 +260,6 @@ const AppHeader = () => {
                     <X className="w-4 h-4" />
                   </button>
                 )}
-
-                {/* Search Results Dropdown for Tablet */}
                 {showSearchResults && filteredResults.length > 0 && (
                   <div className="absolute left-0 right-0 z-50 mt-2 overflow-hidden bg-white rounded-lg shadow-theme-lg top-full dark:bg-gray-900 dark:border dark:border-gray-800">
                     <div className="max-h-64 overflow-y-auto">
@@ -282,6 +294,8 @@ const AppHeader = () => {
               </div>
             </div>
           )}
+
+          {/* if th application name is bigger, in tablet mode reduce the width of the search bar so the user can see the complete aplication name */}
 
           {/* Mobile Search Icon - Only show when search is closed and not in tablet view */}
           {!isTabletView && (
