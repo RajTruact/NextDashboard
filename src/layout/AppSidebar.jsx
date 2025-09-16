@@ -129,7 +129,7 @@ const AppSidebar = ({ role = "admin" }) => {
                           void el.offsetWidth;
 
                           el.style.animation =
-                            "marquee-once 1s linear forwards";
+                            "marquee-once 0.8s linear forwards";
                         }
                       }}
                       onAnimationEnd={(e) => {
@@ -187,7 +187,7 @@ const AppSidebar = ({ role = "admin" }) => {
                                   void el.offsetWidth;
 
                                   el.style.animation =
-                                    "marquee-once 1s linear forwards";
+                                    "marquee-once 0.8s linear forwards";
                                 }
                               }}
                               onAnimationEnd={(e) => {
@@ -239,7 +239,7 @@ const AppSidebar = ({ role = "admin" }) => {
                                         void el.offsetWidth;
 
                                         el.style.animation =
-                                          "marquee-once 1s linear forwards";
+                                          "marquee-once 0.8s linear forwards";
                                       }
                                     }}
                                     onAnimationEnd={(e) => {
