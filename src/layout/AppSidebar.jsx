@@ -116,7 +116,7 @@ const AppSidebar = ({ role = "admin" }) => {
                         // Reset animation so it can retrigger
                         el.style.animation = "none";
 
-                        // Only animate if text is longer than container
+                        // केवल तभी animate जब text container से बड़ा हो
                         if (el.scrollWidth > wrapper.offsetWidth) {
                           const shift = `-${
                             el.scrollWidth - wrapper.offsetWidth
@@ -128,12 +128,18 @@ const AppSidebar = ({ role = "admin" }) => {
                           // Force reflow to restart animation
                           void el.offsetWidth;
 
+                          // Animation run करो
                           el.style.animation =
                             "marquee-once 0.8s linear forwards";
                         }
                       }}
                       onAnimationEnd={(e) => {
-                        e.currentTarget.style.animation = "none"; // reset after one run
+                        const el = e.currentTarget;
+
+                        // Animation खत्म होने के बाद delay रखो (जैसे 1s)
+                        setTimeout(() => {
+                          el.style.animation = "none"; // reset so next hover can retrigger
+                        }, 500); // 500ms = 0.5s delay
                       }}
                     >
                       {nav.name}
@@ -191,7 +197,12 @@ const AppSidebar = ({ role = "admin" }) => {
                                 }
                               }}
                               onAnimationEnd={(e) => {
-                                e.currentTarget.style.animation = "none"; // reset after one run
+                                const el = e.currentTarget;
+
+                                // Animation खत्म होने के बाद delay रखो (जैसे 1s)
+                                setTimeout(() => {
+                                  el.style.animation = "none"; // reset so next hover can retrigger
+                                }, 500); // 500ms = 0.5s delay
                               }}
                             >
                               {sub.heading}
@@ -243,7 +254,12 @@ const AppSidebar = ({ role = "admin" }) => {
                                       }
                                     }}
                                     onAnimationEnd={(e) => {
-                                      e.currentTarget.style.animation = "none"; // reset after one run
+                                      const el = e.currentTarget;
+
+                                      // Animation खत्म होने के बाद delay रखो (जैसे 1s)
+                                      setTimeout(() => {
+                                        el.style.animation = "none"; // reset so next hover can retrigger
+                                      }, 500); // 500ms = 0.5s delay
                                     }}
                                   >
                                     {child.name}
@@ -424,7 +440,7 @@ const AppSidebar = ({ role = "admin" }) => {
                     <DropdownItem
                       onItemClick={closeSettings}
                       tag="a"
-                      href="/"
+                      href={`/${roles}/support`}
                       className="flex items-center gap-3 px-3 py-2 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
                     >
                       <svg
