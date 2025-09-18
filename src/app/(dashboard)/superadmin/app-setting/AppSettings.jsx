@@ -1,276 +1,185 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useModal } from "@/src/hooks/useModaol";
+import { Modal } from "@/src/components/ui/modal";
 import Button from "@/src/components/ui/button/Button";
+import Input from "@/src/components/ui/input/InputField";
 import Label from "@/src/components/ui/input/Label";
 
-export default function AppSettings() {
-  const [theme, setTheme] = useState("system");
-  const [accentColor, setAccentColor] = useState("#3b82f6");
-  const [fontSize, setFontSize] = useState("medium");
-  const [reducedMotion, setReducedMotion] = useState(false);
-  const [language, setLanguage] = useState("english");
+export default function AppSettingCard() {
+  const { isOpen, openModal, closeModal } = useModal();
+  const [appSettings, setAppSettings] = useState({
+    fullName: "After Sales Support Organisation",
+    shortName: "A.S.S.O",
+  });
 
-  // Load saved settings on component mount
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("appTheme") || "system";
-    const savedAccentColor = localStorage.getItem("accentColor") || "#3b82f6";
-    const savedFontSize = localStorage.getItem("fontSize") || "medium";
-    const savedReducedMotion = localStorage.getItem("reducedMotion") === "true";
-    const savedLanguage = localStorage.getItem("language") || "english";
-
-    setTheme(savedTheme);
-    setAccentColor(savedAccentColor);
-    setFontSize(savedFontSize);
-    setReducedMotion(savedReducedMotion);
-    setLanguage(savedLanguage);
-  }, []);
-
-  // Apply theme changes
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("appTheme", theme);
-  }, [theme]);
-
-  // Apply accent color changes
-  useEffect(() => {
-    document.documentElement.style.setProperty("--color-primary", accentColor);
-    localStorage.setItem("accentColor", accentColor);
-  }, [accentColor]);
-
-  // Apply other settings
-  const applySettings = () => {
-    localStorage.setItem("fontSize", fontSize);
-    localStorage.setItem("reducedMotion", reducedMotion.toString());
-    localStorage.setItem("language", language);
-    
-    // Show success feedback
-    alert("Settings saved successfully!");
+  const handleSave = () => {
+    // Handle save logic here - typically would call an API
+    console.log("Saving application settings:", appSettings);
+    closeModal();
   };
 
-  const resetSettings = () => {
-    setTheme("system");
-    setAccentColor("#3b82f6");
-    setFontSize("medium");
-    setReducedMotion(false);
-    setLanguage("english");
+  const handleInputChange = (field, value) => {
+    setAppSettings((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
   };
-
-  const accentColors = [
-    { name: "Blue", value: "#3b82f6" },
-    { name: "Green", value: "#10b981" },
-    { name: "Purple", value: "#8b5cf6" },
-    { name: "Red", value: "#ef4444" },
-    { name: "Yellow", value: "#f59e0b" },
-    { name: "Pink", value: "#ec4899" },
-  ];
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-800 dark:text-white/90">Application Settings</h1>
-        <p className="text-gray-600 dark:text-gray-400 mt-2">
-          Customize your application experience according to your preferences.
-        </p>
-      </div>
+    <>
+      <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
+        <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
+          <div className="flex flex-col items-center w-full gap-6 sm:flex-row sm:items-start">
+            {/* <div className="flex items-center justify-center w-20 h-20 overflow-hidden border border-gray-200 rounded-xl dark:border-gray-800 group shrink-0 bg-gradient-to-br from-blue-500 to-purple-600">
+              <span className="text-2xl font-bold text-white">
+                {appSettings.shortName.charAt(0)}
+              </span>
+            </div> */}
 
-      <div className="space-y-8">
-        {/* Theme Settings */}
-        <div className="p-6 border border-gray-200 rounded-2xl dark:border-gray-800">
-          <h2 className="text-lg font-semibold text-gray-800 dark:text-white/90 mb-4">Appearance</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <Label className="mb-3 block">Theme</Label>
-              <div className="space-y-3">
-                {[
-                  { id: "light", name: "Light", icon: "☀️" },
-                  { id: "dark", name: "Dark", icon: "🌙" },
-                  { id: "system", name: "System Default", icon: "💻" },
-                ].map((option) => (
-                  <div
-                    key={option.id}
-                    className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${
-                      theme === option.id
-                        ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
-                        : "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
-                    }`}
-                    onClick={() => setTheme(option.id)}
+            <div className="w-full">
+              <div className="flex flex-col items-center mb-6 sm:flex-row sm:justify-between sm:items-start">
+                <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90 mb-4 sm:mb-0">
+                  Application Settings
+                </h4>
+
+                <button
+                  onClick={openModal}
+                  className="flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 sm:w-auto w-full max-w-[200px]"
+                >
+                  <svg
+                    className="fill-current"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 18 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <span className="text-xl mr-3">{option.icon}</span>
-                    <span className="text-gray-800 dark:text-white/90">{option.name}</span>
-                    {theme === option.id && (
-                      <span className="ml-auto text-blue-500">
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                      </span>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <Label className="mb-3 block">Accent Color</Label>
-              <div className="grid grid-cols-3 gap-3">
-                {accentColors.map((color) => (
-                  <div
-                    key={color.value}
-                    className={`h-12 rounded-lg cursor-pointer flex items-center justify-center ${
-                      accentColor === color.value ? "ring-2 ring-offset-2 ring-blue-500" : ""
-                    }`}
-                    style={{ backgroundColor: color.value }}
-                    onClick={() => setAccentColor(color.value)}
-                  >
-                    {accentColor === color.value && (
-                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                      </svg>
-                    )}
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 flex items-center">
-                <div 
-                  className="w-8 h-8 rounded-md mr-3 border border-gray-300 dark:border-gray-600"
-                  style={{ backgroundColor: accentColor }}
-                />
-                <span className="text-gray-700 dark:text-gray-300">
-                  {accentColors.find(c => c.value === accentColor)?.name || "Custom"}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Accessibility Settings */}
-        <div className="p-6 border border-gray-200 rounded-2xl dark:border-gray-800">
-          <h2 className="text-lg font-semibold text-gray-800 dark:text-white/90 mb-4">Accessibility</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <Label className="mb-3 block">Font Size</Label>
-              <div className="space-y-3">
-                {[
-                  { id: "small", name: "Small" },
-                  { id: "medium", name: "Medium" },
-                  { id: "large", name: "Large" },
-                  { id: "xlarge", name: "Extra Large" },
-                ].map((option) => (
-                  <div
-                    key={option.id}
-                    className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${
-                      fontSize === option.id
-                        ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
-                        : "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
-                    }`}
-                    onClick={() => setFontSize(option.id)}
-                  >
-                    <span className="text-gray-800 dark:text-white/90">{option.name}</span>
-                    {fontSize === option.id && (
-                      <span className="ml-auto text-blue-500">
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                      </span>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <Label className="mb-3 block">Other Options</Label>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-gray-800 dark:text-white/90">Reduce Motion</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">
-                      Minimize animations and transitions
-                    </div>
-                  </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="sr-only peer"
-                      checked={reducedMotion}
-                      onChange={() => setReducedMotion(!reducedMotion)}
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M15.0911 2.78206C14.2125 1.90338 12.7878 1.90338 11.9092 2.78206L4.57524 10.116C4.26682 10.4244 4.0547 10.8158 3.96468 11.2426L3.31231 14.3352C3.25997 14.5833 3.33653 14.841 3.51583 15.0203C3.69512 15.1996 3.95286 15.2761 4.20096 15.2238L7.29355 14.5714C7.72031 14.4814 8.11172 14.2693 8.42013 13.9609L15.7541 6.62695C16.6327 5.74827 16.6327 4.32365 15.7541 3.44497L15.0911 2.78206ZM12.9698 3.84272C13.2627 3.54982 13.7376 3.54982 14.0305 3.84272L14.6934 4.50563C14.9863 4.79852 14.9863 5.2734 14.6934 5.56629L14.044 6.21573L12.3204 4.49215L12.9698 3.84272ZM11.2597 5.55281L5.6359 11.1766C5.53309 11.2794 5.46238 11.4099 5.43238 11.5522L5.01758 13.5185L6.98394 13.1037C7.1262 13.0737 7.25666 13.003 7.35947 12.9002L12.9833 7.27639L11.2597 5.55281Z"
+                      fill=""
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                  </label>
+                  </svg>
+                  Edit Settings
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2 lg:gap-6">
+                <div className="p-3 bg-gray-50 rounded-lg dark:bg-gray-800/50">
+                  <p className="mb-1 text-xs leading-normal text-gray-500 dark:text-gray-400">
+                    Full Application Name
+                  </p>
+                  <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                    {appSettings.fullName}
+                  </p>
                 </div>
 
-                <div>
-                  <Label className="mb-2 block">Language</Label>
-                  <select
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
-                    value={language}
-                    onChange={(e) => setLanguage(e.target.value)}
-                  >
-                    <option value="english">English</option>
-                    <option value="spanish">Spanish</option>
-                    <option value="french">French</option>
-                    <option value="german">German</option>
-                    <option value="japanese">Japanese</option>
-                  </select>
+                <div className="p-3 bg-gray-50 rounded-lg dark:bg-gray-800/50">
+                  <p className="mb-1 text-xs leading-normal text-gray-500 dark:text-gray-400">
+                    Short Name
+                  </p>
+                  <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                    {appSettings.shortName}
+                  </p>
                 </div>
+              </div>
+
+              <div className="mt-6 p-3 bg-blue-50 rounded-lg dark:bg-blue-900/20">
+                <p className="text-xs leading-normal text-blue-600 dark:text-blue-300">
+                  <span className="font-semibold">Note:</span> Changing these
+                  settings will affect how your application name appears
+                  throughout the system.
+                </p>
               </div>
             </div>
           </div>
         </div>
-
-        {/* Actions */}
-        <div className="flex justify-end space-x-4">
-          <Button variant="outline" onClick={resetSettings}>
-            Reset to Defaults
-          </Button>
-          <Button onClick={applySettings}>
-            Save Changes
-          </Button>
-        </div>
       </div>
 
-      <style jsx global>{`
-        :root {
-          --color-primary: ${accentColor};
-        }
-        
-        [data-theme="light"] {
-          --bg-primary: #ffffff;
-          --bg-secondary: #f9fafb;
-          --text-primary: #111827;
-          --text-secondary: #6b7280;
-          --border-color: #e5e7eb;
-        }
-        
-        [data-theme="dark"] {
-          --bg-primary: #111827;
-          --bg-secondary: #1f2937;
-          --text-primary: #f9fafb;
-          --text-secondary: #d1d5db;
-          --border-color: #374151;
-        }
-        
-        body {
-          background-color: var(--bg-primary);
-          color: var(--text-primary);
-          transition: background-color 0.3s, color 0.3s;
-        }
-        
-        ${reducedMotion ? `
-        * {
-          transition-duration: 0.01ms !important;
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          scroll-behavior: auto !important;
-        }
-        ` : ''}
-        
-        ${fontSize === 'small' ? `html { font-size: 14px; }` : ''}
-        ${fontSize === 'medium' ? `html { font-size: 16px; }` : ''}
-        ${fontSize === 'large' ? `html { font-size: 18px; }` : ''}
-        ${fontSize === 'xlarge' ? `html { font-size: 20px; }` : ''}
-      `}</style>
-    </div>
+      <Modal isOpen={isOpen} onClose={closeModal} className="max-w-[600px] m-4">
+        <div className="no-scrollbar relative w-full max-w-[600px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-8">
+          <div className="px-2">
+            <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
+              Edit Application Settings
+            </h4>
+            <p className="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
+              Update your application name and short name.
+            </p>
+          </div>
+          <form className="flex flex-col">
+            <div className="custom-scrollbar max-h-[60vh] overflow-y-auto px-2 pb-3">
+              {/* <div className="flex justify-center mb-6">
+                <div className="flex items-center justify-center w-24 h-24 overflow-hidden border border-gray-200 rounded-xl dark:border-gray-800 bg-gradient-to-br from-blue-500 to-purple-600">
+                  <span className="text-3xl font-bold text-white">
+                    {appSettings.shortName.charAt(0)}
+                  </span>
+                </div>
+              </div> */}
+
+              <div className="mb-7">
+                <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
+                  Application Information
+                </h5>
+
+                <div className="grid grid-cols-1 gap-x-4 gap-y-5">
+                  <div className="col-span-1">
+                    <Label>Full Application Name</Label>
+                    <Input
+                      type="text"
+                      value={appSettings.fullName}
+                      onChange={(e) =>
+                        handleInputChange("fullName", e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="col-span-1">
+                    <Label>Short Name</Label>
+                    <Input
+                      type="text"
+                      value={appSettings.shortName}
+                      onChange={(e) =>
+                        handleInputChange("shortName", e.target.value)
+                      }
+                    />
+                    <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                      This will be used as an abbreviation throughout the
+                      application
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-6 p-4 bg-blue-50 rounded-lg dark:bg-blue-900/20">
+                  <p className="text-sm leading-normal text-blue-600 dark:text-blue-300">
+                    <span className="font-semibold">Important:</span> These
+                    changes will affect how your application name appears to all
+                    users. The short name should be concise and recognizable.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col items-center gap-3 px-2 mt-6 sm:flex-row sm:justify-end">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={closeModal}
+                className="w-full sm:w-auto"
+              >
+                Cancel
+              </Button>
+              <Button
+                size="sm"
+                onClick={handleSave}
+                className="w-full sm:w-auto"
+              >
+                Save Changes
+              </Button>
+            </div>
+          </form>
+        </div>
+      </Modal>
+    </>
   );
 }

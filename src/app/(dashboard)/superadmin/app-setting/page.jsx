@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { usePathname } from "next/navigation";
+import AppSettingCard from "./AppSettings";
 
 export default function AppSetting() {
   const pathname = usePathname();
@@ -11,7 +12,9 @@ export default function AppSetting() {
         <h3 className="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-7 capitalize">
           App Settings {role}
         </h3>
-  
+        <div className="space-y-6">
+          <AppSettingCard />
+        </div>
       </div>
     </div>
   );
