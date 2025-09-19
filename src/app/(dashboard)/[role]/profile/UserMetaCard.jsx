@@ -43,19 +43,19 @@ export default function UserMetaCard() {
 
   return (
     <>
-      <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
-        <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
+      <div className="p-4 sm:p-5 md:p-6 border border-gray-200 rounded-2xl dark:border-gray-800">
+        <div className="flex flex-col gap-6 lg:gap-8 xl:flex-row xl:items-start xl:justify-between">
           {/* Profile Image and Content Container */}
-          <div className="flex flex-col items-center w-full gap-6 xl:flex-row xl:items-start">
-            {/* Profile Image Section - Improved Alignment */}
-            <div className="flex flex-col items-center mt-7 xl:items-start xl:mr-8">
-              <div className="relative w-24 h-24 overflow-hidden border-2 border-gray-300 rounded-full dark:border-gray-700 group mb-4">
+          <div className="flex flex-col items-center w-full gap-6 md:gap-8 xl:flex-row xl:items-start">
+            {/* Profile Image Section */}
+            <div className="flex flex-col items-center xl:items-start xl:mr-8">
+              <div className="relative w-20 h-20 sm:w-24 sm:h-24 overflow-hidden border-2 border-gray-300 rounded-full dark:border-gray-700 group mb-4">
                 <Image
                   width={96}
                   height={96}
                   src={profileImage}
                   alt="user profile"
-                  className="object-cover cursor-pointer"
+                  className="object-cover w-full h-full cursor-pointer"
                   onClick={handleImageClick}
                 />
                 <div
@@ -63,7 +63,7 @@ export default function UserMetaCard() {
                   onClick={handleImageClick}
                 >
                   <svg
-                    className="w-5 h-5 text-white"
+                    className="w-4 h-4 sm:w-5 sm:h-5 text-white"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -107,7 +107,7 @@ export default function UserMetaCard() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                 <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
                   <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
                     First Name
@@ -184,10 +184,10 @@ export default function UserMetaCard() {
           </div>
 
           {/* Edit Button Section */}
-          <div className="flex justify-center items-center xl:flex-col xl:justify-start xl:gap-4 xl:pt-12">
+          <div className="flex justify-center mt-4 xl:mt-0 xl:flex-col xl:justify-start xl:gap-3 xl:pt-10">
             <button
               onClick={openModal}
-              className="flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 xl:w-full"
+              className="flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 xl:w-full"
             >
               <svg
                 className="fill-current"
@@ -214,10 +214,10 @@ export default function UserMetaCard() {
         </div>
       </div>
 
-      <Modal isOpen={isOpen} onClose={closeModal} className="max-w-[600px] m-4">
-        <div className="no-scrollbar relative w-full max-w-[600px] overflow-y-auto rounded-3xl bg-white p-6 dark:bg-gray-900 md:p-8">
-          <div className="mb-6">
-            <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
+      <Modal isOpen={isOpen} onClose={closeModal} className="max-w-[600px] mx-4">
+        <div className="no-scrollbar relative w-full max-w-[600px] overflow-y-auto rounded-3xl bg-white p-5 sm:p-6 dark:bg-gray-900 md:p-7">
+          <div className="mb-5 sm:mb-6">
+            <h4 className="mb-2 text-xl sm:text-2xl font-semibold text-gray-800 dark:text-white/90">
               Edit Personal Information
             </h4>
             <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -227,14 +227,14 @@ export default function UserMetaCard() {
 
           <form className="flex flex-col">
             <div className="custom-scrollbar max-h-[60vh] overflow-y-auto px-1 pb-3">
-              <div className="flex justify-center mb-6">
-                <div className="relative w-24 h-24 overflow-hidden border-2 border-gray-300 rounded-full dark:border-gray-700 group">
+              <div className="flex justify-center mb-5 sm:mb-6">
+                <div className="relative w-20 h-20 sm:w-24 sm:h-24 overflow-hidden border-2 border-gray-300 rounded-full dark:border-gray-700 group">
                   <Image
                     width={96}
                     height={96}
                     src={profileImage}
                     alt="user"
-                    className="object-cover cursor-pointer"
+                    className="object-cover w-full h-full cursor-pointer"
                     onClick={handleImageClick}
                   />
                   <div
@@ -242,7 +242,7 @@ export default function UserMetaCard() {
                     onClick={handleImageClick}
                   >
                     <svg
-                      className="w-5 h-5 text-white"
+                      className="w-4 h-4 sm:w-5 sm:h-5 text-white"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -265,12 +265,12 @@ export default function UserMetaCard() {
                 </div>
               </div>
 
-              <div className="mb-6">
-                <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90">
+              <div className="mb-5 sm:mb-6">
+                <h5 className="mb-4 text-lg font-medium text-gray-800 dark:text-white/90">
                   Personal Information
                 </h5>
 
-                <div className="grid grid-cols-1 gap-x-5 gap-y-4 md:grid-cols-2">
+                <div className="grid grid-cols-1 gap-x-4 gap-y-3 sm:gap-x-5 sm:gap-y-4 md:grid-cols-2">
                   <div>
                     <Label>First Name</Label>
                     <Input type="text" defaultValue="Jayant" />
@@ -335,10 +335,10 @@ export default function UserMetaCard() {
       <Modal
         isOpen={isImageModalOpen}
         onClose={() => setIsImageModalOpen(false)}
-        className="max-w-md m-4"
+        className="max-w-md mx-4"
       >
-        <div className="no-scrollbar relative w-full max-w-md overflow-y-auto rounded-3xl bg-white p-6 dark:bg-gray-900">
-          <h4 className="mb-4 text-xl font-semibold text-gray-800 dark:text-white/90">
+        <div className="no-scrollbar relative w-full max-w-md overflow-y-auto rounded-3xl bg-white p-5 dark:bg-gray-900 sm:p-6">
+          <h4 className="mb-4 text-lg sm:text-xl font-semibold text-gray-800 dark:text-white/90">
             Change Profile Picture
           </h4>
 
