@@ -44,128 +44,146 @@ export default function UserMetaCard() {
   return (
     <>
       <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
-        <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
-          <div className="flex flex-col items-center w-full gap-6 xl:flex-row">
-            <div className="relative w-20 h-20 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800 group">
-              <Image
-                width={80}
-                height={80}
-                src={profileImage}
-                alt="user"
-                className="object-cover cursor-pointer"
-                onClick={handleImageClick}
-              />
-              <div
-                className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-                onClick={handleImageClick}
-              >
-                <svg
-                  className="w-5 h-5 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+        <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
+          {/* Profile Image and Content Container */}
+          <div className="flex flex-col items-center w-full gap-6 xl:flex-row xl:items-start">
+            {/* Profile Image Section - Improved Alignment */}
+            <div className="flex flex-col items-center xl:items-start xl:mr-8">
+              <div className="relative w-24 h-24 overflow-hidden border-2 border-gray-300 rounded-full dark:border-gray-700 group mb-4">
+                <Image
+                  width={96}
+                  height={96}
+                  src={profileImage}
+                  alt="user profile"
+                  className="object-cover cursor-pointer"
+                  onClick={handleImageClick}
+                />
+                <div
+                  className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                  onClick={handleImageClick}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                </svg>
+                  <svg
+                    className="w-5 h-5 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              
+              {/* User name under image for better context */}
+              <div className="text-center xl:text-left">
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">Jayant Kumar</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Backend Dev</p>
               </div>
             </div>
-            <div className="order-3 xl:order-2">
-              <div>
-                <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">
+            
+            {/* Personal Information Section */}
+            <div className="w-full">
+              <div className="mb-6 border-b border-gray-200 dark:border-gray-700 pb-4">
+                <h4 className="text-xl font-semibold text-gray-800 dark:text-white/90">
                   Personal Information
                 </h4>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  Your personal details and contact information
+                </p>
+              </div>
 
-                <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-7 2xl:gap-x-32">
-                  <div>
-                    <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                      First Name
-                    </p>
-                    <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                      Jayant
-                    </p>
-                  </div>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                  <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
+                    First Name
+                  </p>
+                  <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                    Jayant
+                  </p>
+                </div>
 
-                  <div>
-                    <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                      Last Name
-                    </p>
-                    <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                      Kumar
-                    </p>
-                  </div>
+                <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                  <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
+                    Last Name
+                  </p>
+                  <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                    Kumar
+                  </p>
+                </div>
 
-                  <div>
-                    <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                      Phone
-                    </p>
-                    <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                      +91 8700 xxxxx 99
-                    </p>
-                  </div>
+                <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                  <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
+                    Phone
+                  </p>
+                  <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                    +91 8700 xxxxx 99
+                  </p>
+                </div>
 
-                  <div>
-                    <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                      Bio
-                    </p>
-                    <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                      Backend Dev
-                    </p>
-                  </div>
-                  <div>
-                    <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                      Country
-                    </p>
-                    <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                      India
-                    </p>
-                  </div>
+                <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                  <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
+                    Bio
+                  </p>
+                  <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                    Backend Dev
+                  </p>
+                </div>
+                
+                <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                  <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
+                    Country
+                  </p>
+                  <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                    India
+                  </p>
+                </div>
 
-                  <div>
-                    <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                      City
-                    </p>
-                    <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                      Merut
-                    </p>
-                  </div>
+                <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                  <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
+                    City
+                  </p>
+                  <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                    Merut
+                  </p>
+                </div>
 
-                  <div>
-                    <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                      Postal Code
-                    </p>
-                    <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                      1100001
-                    </p>
-                  </div>
+                <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                  <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
+                    Postal Code
+                  </p>
+                  <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                    1100001
+                  </p>
+                </div>
 
-                  <div>
-                    <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                      State
-                    </p>
-                    <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                      Uttar Pradesh
-                    </p>
-                  </div>
+                <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50 sm:col-span-2 lg:col-span-1">
+                  <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
+                    State
+                  </p>
+                  <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                    Uttar Pradesh
+                  </p>
                 </div>
               </div>
             </div>
           </div>
-          <div className="flex justify-center items-center flex-col-reverse gap-10">
+          
+          {/* Edit Button Section */}
+          <div className="flex justify-center items-center xl:flex-col xl:justify-start xl:gap-4 xl:pt-12">
             <button
               onClick={openModal}
-              className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto "
+              className="flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 xl:w-full"
             >
               <svg
                 className="fill-current"
@@ -182,26 +200,31 @@ export default function UserMetaCard() {
                   fill=""
                 />
               </svg>
-              Edit
+              Edit Profile
             </button>
+            
+            <p className="hidden text-xs text-gray-500 dark:text-gray-400 mt-2 text-center xl:block">
+              Update your personal details
+            </p>
           </div>
         </div>
       </div>
 
       <Modal isOpen={isOpen} onClose={closeModal} className="max-w-[600px] m-4">
-        <div className="no-scrollbar relative w-full max-w-[600px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
-          <div className="px-2 pr-14">
+        <div className="no-scrollbar relative w-full max-w-[600px] overflow-y-auto rounded-3xl bg-white p-6 dark:bg-gray-900 md:p-8">
+          <div className="mb-6">
             <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
               Edit Personal Information
             </h4>
-            <p className="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               Update your details to keep your profile up-to-date.
             </p>
           </div>
+          
           <form className="flex flex-col">
-            <div className="custom-scrollbar h-[300px] overflow-y-auto px-2 pb-3">
+            <div className="custom-scrollbar max-h-[60vh] overflow-y-auto px-1 pb-3">
               <div className="flex justify-center mb-6">
-                <div className="relative w-24 h-24 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800 group">
+                <div className="relative w-24 h-24 overflow-hidden border-2 border-gray-300 rounded-full dark:border-gray-700 group">
                   <Image
                     width={96}
                     height={96}
@@ -238,55 +261,60 @@ export default function UserMetaCard() {
                 </div>
               </div>
 
-              <div className="mt-7">
-                <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
+              <div className="mb-6">
+                <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90">
                   Personal Information
                 </h5>
 
-                <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
-                  <div className="col-span-2 lg:col-span-1">
+                <div className="grid grid-cols-1 gap-x-5 gap-y-4 md:grid-cols-2">
+                  <div>
                     <Label>First Name</Label>
                     <Input type="text" defaultValue="Jayant" />
                   </div>
 
-                  <div className="col-span-2 lg:col-span-1">
+                  <div>
                     <Label>Last Name</Label>
                     <Input type="text" defaultValue="Kumar" />
                   </div>
 
-                  <div className="col-span-2 lg:col-span-1">
+                  <div>
                     <Label>Phone</Label>
                     <Input type="text" defaultValue="+91 87 xxxx 99" />
                   </div>
 
-                  <div className="col-span-2  lg:col-span-1">
+                  <div>
                     <Label>Bio</Label>
                     <Input type="text" defaultValue="Backend" />
                   </div>
-                  <div className="col-span-2  lg:col-span-1">
+                  
+                  <div>
                     <Label>Country</Label>
                     <Input type="text" defaultValue="India" />
                   </div>
-                  <div className="col-span-2  lg:col-span-1">
+                  
+                  <div>
                     <Label>City</Label>
                     <Input type="text" defaultValue="New Delhi" />
                   </div>
-                  <div className="col-span-2  lg:col-span-1">
+                  
+                  <div>
                     <Label>Postal Code</Label>
                     <Input type="text" defaultValue="1100001" />
                   </div>
-                  <div className="col-span-2  lg:col-span-1">
+                  
+                  <div>
                     <Label>State</Label>
                     <Input type="text" defaultValue="Uttar Pradesh" />
                   </div>
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
-              <Button size="sm" variant="outline" onClick={closeModal}>
+            
+            <div className="flex flex-col gap-3 pt-4 border-t border-gray-200 dark:border-gray-800 sm:flex-row sm:justify-end">
+              <Button size="sm" variant="outline" onClick={closeModal} className="sm:order-1">
                 Close
               </Button>
-              <Button size="sm" onClick={handleSave}>
+              <Button size="sm" onClick={handleSave} className="sm:order-2">
                 Save Changes
               </Button>
             </div>
@@ -305,7 +333,7 @@ export default function UserMetaCard() {
             Change Profile Picture
           </h4>
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             <input
               type="file"
               ref={fileInputRef}
@@ -337,7 +365,7 @@ export default function UserMetaCard() {
             <Button
               variant="outline"
               onClick={() => setIsImageModalOpen(false)}
-              className="w-full"
+              className="w-full mt-2"
             >
               Cancel
             </Button>
