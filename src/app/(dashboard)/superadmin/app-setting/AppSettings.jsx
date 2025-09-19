@@ -9,7 +9,7 @@ import Label from "@/src/components/ui/input/Label";
 export default function AppSettingCard() {
   const { isOpen, openModal, closeModal } = useModal();
   const [appSettings, setAppSettings] = useState({
-    fullName: "After Sales Support Organisation",
+    fullName: "After Sales Support",
     shortName: "A.S.S.O",
   });
 
