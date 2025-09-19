@@ -743,7 +743,7 @@ span.flatpickr-weekday,
 .menu-text-wrapper {
   position: relative;
   display: block;
-  max-width: 150px; /* अपनी sidebar width के हिसाब से बदलें */
+  max-width: 150px;
   overflow: hidden;
   white-space: nowrap;
 }

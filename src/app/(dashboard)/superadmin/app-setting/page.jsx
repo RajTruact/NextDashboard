@@ -2,6 +2,7 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import AppSettingCard from "./AppSettings";
+import ThemeCustomizationPage from "./ThemeSetting";
 
 export default function AppSetting() {
   const pathname = usePathname();
@@ -15,6 +16,7 @@ export default function AppSetting() {
         <div className="space-y-6">
           <AppSettingCard />
         </div>
+        <div className="space-y-6">{/* <ThemeCustomizationPage /> */}</div>
       </div>
     </div>
   );
