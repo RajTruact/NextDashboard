@@ -48,7 +48,7 @@ export default function UserMetaCard() {
           {/* Profile Image and Content Container */}
           <div className="flex flex-col items-center w-full gap-6 xl:flex-row xl:items-start">
             {/* Profile Image Section - Improved Alignment */}
-            <div className="flex flex-col items-center xl:items-start xl:mr-8">
+            <div className="flex flex-col items-center mt-7 xl:items-start xl:mr-8">
               <div className="relative w-24 h-24 overflow-hidden border-2 border-gray-300 rounded-full dark:border-gray-700 group mb-4">
                 <Image
                   width={96}
@@ -84,14 +84,18 @@ export default function UserMetaCard() {
                   </svg>
                 </div>
               </div>
-              
+
               {/* User name under image for better context */}
               <div className="text-center xl:text-left">
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">Jayant Kumar</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Backend Dev</p>
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
+                  Jayant Kumar
+                </h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Backend Dev
+                </p>
               </div>
             </div>
-            
+
             {/* Personal Information Section */}
             <div className="w-full">
               <div className="mb-6 border-b border-gray-200 dark:border-gray-700 pb-4">
@@ -139,7 +143,7 @@ export default function UserMetaCard() {
                     Backend Dev
                   </p>
                 </div>
-                
+
                 <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
                   <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
                     Country
@@ -178,7 +182,7 @@ export default function UserMetaCard() {
               </div>
             </div>
           </div>
-          
+
           {/* Edit Button Section */}
           <div className="flex justify-center items-center xl:flex-col xl:justify-start xl:gap-4 xl:pt-12">
             <button
@@ -202,7 +206,7 @@ export default function UserMetaCard() {
               </svg>
               Edit Profile
             </button>
-            
+
             <p className="hidden text-xs text-gray-500 dark:text-gray-400 mt-2 text-center xl:block">
               Update your personal details
             </p>
@@ -220,7 +224,7 @@ export default function UserMetaCard() {
               Update your details to keep your profile up-to-date.
             </p>
           </div>
-          
+
           <form className="flex flex-col">
             <div className="custom-scrollbar max-h-[60vh] overflow-y-auto px-1 pb-3">
               <div className="flex justify-center mb-6">
@@ -286,22 +290,22 @@ export default function UserMetaCard() {
                     <Label>Bio</Label>
                     <Input type="text" defaultValue="Backend" />
                   </div>
-                  
+
                   <div>
                     <Label>Country</Label>
                     <Input type="text" defaultValue="India" />
                   </div>
-                  
+
                   <div>
                     <Label>City</Label>
                     <Input type="text" defaultValue="New Delhi" />
                   </div>
-                  
+
                   <div>
                     <Label>Postal Code</Label>
                     <Input type="text" defaultValue="1100001" />
                   </div>
-                  
+
                   <div>
                     <Label>State</Label>
                     <Input type="text" defaultValue="Uttar Pradesh" />
@@ -309,9 +313,14 @@ export default function UserMetaCard() {
                 </div>
               </div>
             </div>
-            
+
             <div className="flex flex-col gap-3 pt-4 border-t border-gray-200 dark:border-gray-800 sm:flex-row sm:justify-end">
-              <Button size="sm" variant="outline" onClick={closeModal} className="sm:order-1">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={closeModal}
+                className="sm:order-1"
+              >
                 Close
               </Button>
               <Button size="sm" onClick={handleSave} className="sm:order-2">
