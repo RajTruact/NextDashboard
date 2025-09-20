@@ -1,1 +1,1 @@
-Tailwind dashboard
+# Tailwind Manual Dashboard
