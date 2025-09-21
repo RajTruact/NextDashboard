@@ -1,1 +1,1 @@
-# Tailwind Manual Dashboard
+# Tailwind Manual Next Js Dashboard
