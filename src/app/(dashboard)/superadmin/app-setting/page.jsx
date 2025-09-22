@@ -16,7 +16,9 @@ export default function AppSetting() {
         <div className="space-y-6">
           <AppSettingCard />
         </div>
-        <div className="space-y-6">{/* <ThemeCustomizationPage /> */}</div>
+        <div className="space-y-6">
+          <ThemeCustomizationPage />
+        </div>
       </div>
     </div>
   );
