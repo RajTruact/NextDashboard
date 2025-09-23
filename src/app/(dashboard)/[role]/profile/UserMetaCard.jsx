@@ -43,151 +43,22 @@ export default function UserMetaCard() {
 
   return (
     <>
-      <div className="p-4 sm:p-5 md:p-6 border border-gray-200 rounded-2xl dark:border-gray-800">
-        <div className="flex flex-col gap-6 lg:gap-8 xl:flex-row xl:items-start xl:justify-between">
-          {/* Profile Image and Content Container */}
-          <div className="flex flex-col items-center w-full gap-6 md:gap-8 xl:flex-row xl:items-start">
-            {/* Profile Image Section */}
-            <div className="flex flex-col items-center xl:items-start xl:mr-8">
-              <div className="relative w-20 h-20 sm:w-24 sm:h-24 overflow-hidden border-2 border-gray-300 rounded-full dark:border-gray-700 group mb-4">
-                <Image
-                  width={96}
-                  height={96}
-                  src={profileImage}
-                  alt="user profile"
-                  className="object-cover w-full h-full cursor-pointer"
-                  onClick={handleImageClick}
-                />
-                <div
-                  className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-                  onClick={handleImageClick}
-                >
-                  <svg
-                    className="w-4 h-4 sm:w-5 sm:h-5 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                </div>
-              </div>
-
-              {/* User name under image for better context */}
-              <div className="text-center xl:text-left">
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
-                  Jayant Kumar
-                </h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Backend Dev
-                </p>
-              </div>
-            </div>
-
-            {/* Personal Information Section */}
-            <div className="w-full">
-              <div className="mb-6 border-b border-gray-200 dark:border-gray-700 pb-4">
-                <h4 className="text-xl font-semibold text-gray-800 dark:text-white/90">
-                  Personal Information
-                </h4>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                  Your personal details and contact information
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-                <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                  <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
-                    First Name
-                  </p>
-                  <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                    Jayant
-                  </p>
-                </div>
-
-                <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                  <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
-                    Last Name
-                  </p>
-                  <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                    Kumar
-                  </p>
-                </div>
-
-                <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                  <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
-                    Phone
-                  </p>
-                  <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                    +91 8700 xxxxx 99
-                  </p>
-                </div>
-
-                <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                  <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
-                    Bio
-                  </p>
-                  <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                    Backend Dev
-                  </p>
-                </div>
-
-                <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                  <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
-                    Country
-                  </p>
-                  <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                    India
-                  </p>
-                </div>
-
-                <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                  <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
-                    City
-                  </p>
-                  <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                    Merut
-                  </p>
-                </div>
-
-                <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                  <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
-                    Postal Code
-                  </p>
-                  <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                    1100001
-                  </p>
-                </div>
-
-                <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50 sm:col-span-2 lg:col-span-1">
-                  <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
-                    State
-                  </p>
-                  <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                    Uttar Pradesh
-                  </p>
-                </div>
-              </div>
-            </div>
+      <div className="p-4 sm:p-5 md:p-6 border border-gray-200 rounded-2xl dark:border-gray-800 bg-white dark:bg-[#1D1F24]">
+        {/* Top Row: Heading and Edit Button */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
+          <div className="mb-4 sm:mb-0">
+            <h4 className="text-xl font-semibold text-gray-800 dark:text-white/90">
+              Personal Information
+            </h4>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              Your personal details and contact information
+            </p>
           </div>
 
-          {/* Edit Button Section */}
-          <div className="flex justify-center mt-4 xl:mt-0 xl:flex-col xl:justify-start xl:gap-3 xl:pt-10">
+          <div className="flex flex-col items-center sm:items-end">
             <button
               onClick={openModal}
-              className="flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 xl:w-full"
+              className="flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200"
             >
               <svg
                 className="fill-current"
@@ -206,15 +77,136 @@ export default function UserMetaCard() {
               </svg>
               Edit Profile
             </button>
-
-            <p className="hidden text-xs text-gray-500 dark:text-gray-400 mt-2 text-center xl:block">
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center sm:text-right">
               Update your personal details
             </p>
           </div>
         </div>
-      </div>
 
-      <Modal isOpen={isOpen} onClose={closeModal} className="max-w-[600px] mx-4">
+        {/* Second Row: Image and Fields */}
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+          {/* Profile Image Section */}
+          <div className="flex justify-center lg:justify-start">
+            <div className="relative w-32 h-32 sm:w-36 sm:h-36 mt-5 overflow-hidden border-2 border-gray-300 rounded-full dark:border-gray-700 group">
+              <Image
+                width={160}
+                height={160}
+                src={profileImage}
+                alt="user profile"
+                className="object-cover w-full h-full cursor-pointer"
+                onClick={handleImageClick}
+              />
+              <div
+                className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                onClick={handleImageClick}
+              >
+                <svg
+                  className="w-5 h-5 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          {/* Personal Information Fields */}
+          <div className="flex-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+              <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
+                  First Name
+                </p>
+                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                  Jayant
+                </p>
+              </div>
+
+              <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
+                  Last Name
+                </p>
+                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                  Kumar
+                </p>
+              </div>
+
+              <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
+                  Phone
+                </p>
+                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                  +91 8700 xxxxx 99
+                </p>
+              </div>
+
+              <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
+                  Profile
+                </p>
+                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                  Backend Dev
+                </p>
+              </div>
+
+              <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
+                  Country
+                </p>
+                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                  India
+                </p>
+              </div>
+
+              <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
+                  City
+                </p>
+                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                  Merut
+                </p>
+              </div>
+
+              <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
+                  Postal Code
+                </p>
+                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                  1100001
+                </p>
+              </div>
+
+              <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50 sm:col-span-2 lg:col-span-1">
+                <p className="mb-1 text-xs font-medium text-gray-500 dark:text-gray-400">
+                  State
+                </p>
+                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                  Uttar Pradesh
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Modal
+        isOpen={isOpen}
+        onClose={closeModal}
+        className="max-w-[600px] mx-4"
+      >
         <div className="no-scrollbar relative w-full max-w-[600px] overflow-y-auto rounded-3xl bg-white p-5 sm:p-6 dark:bg-gray-900 md:p-7">
           <div className="mb-5 sm:mb-6">
             <h4 className="mb-2 text-xl sm:text-2xl font-semibold text-gray-800 dark:text-white/90">
@@ -287,7 +279,7 @@ export default function UserMetaCard() {
                   </div>
 
                   <div>
-                    <Label>Bio</Label>
+                    <Label>Profile</Label>
                     <Input type="text" defaultValue="Backend" />
                   </div>
 

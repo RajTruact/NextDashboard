@@ -11,7 +11,6 @@ export default function SupportCard() {
     email: "",
     phone: "",
     subject: "",
-    issueType: "technical",
     description: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -38,7 +37,6 @@ export default function SupportCard() {
         email: "",
         phone: "",
         subject: "",
-        issueType: "technical",
         description: "",
       });
     }, 3000);
@@ -48,7 +46,6 @@ export default function SupportCard() {
     <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
       <div className="flex flex-col gap-6">
         <div>
-      
           <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
             Need help? Fill out the form below and our team will assist you
             shortly.
@@ -120,36 +117,19 @@ export default function SupportCard() {
                   onChange={handleChange}
                 />
               </div>
+
               <div>
-                <Label htmlFor="issueType">Issue Type *</Label>
-                <select
-                  id="issueType"
-                  name="issueType"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
-                  value={formData.issueType}
+                <Label htmlFor="subject">Subject *</Label>
+                <Input
+                  id="subject"
+                  name="subject"
+                  type="text"
+                  placeholder="Brief description of your issue"
+                  value={formData.subject}
                   onChange={handleChange}
                   required
-                >
-                  <option value="technical">Technical Issue</option>
-                  <option value="billing">Billing Inquiry</option>
-                  <option value="account">Account Issue</option>
-                  <option value="feature">Feature Request</option>
-                  <option value="other">Other</option>
-                </select>
+                />
               </div>
-            </div>
-
-            <div>
-              <Label htmlFor="subject">Subject *</Label>
-              <Input
-                id="subject"
-                name="subject"
-                type="text"
-                placeholder="Brief description of your issue"
-                value={formData.subject}
-                onChange={handleChange}
-                required
-              />
             </div>
 
             <div>
@@ -166,10 +146,10 @@ export default function SupportCard() {
             </div>
 
             <div className="flex justify-end mt-4">
-              <Button type="submit" size="sm">Submit Request</Button>
+              <Button type="submit" size="sm">
+                Submit Request
+              </Button>
             </div>
-
-            
           </form>
         )}
       </div>
